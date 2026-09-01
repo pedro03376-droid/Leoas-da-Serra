@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -30,6 +30,33 @@ const LFF_LOGO_SRC = "/brand/liga-lff-icon.png";
 const isLigaFemininaFutsal = (competicao: string) => competicao.startsWith("Liga Feminina de Futsal");
 
 /**
+ * O countdown depende de Date.now() no exato instante da renderizacao, que
+ * nunca bate entre o servidor (SSR) e o client (hidratacao) — por isso
+ * comeca como `null` (igual nos dois lados) e so calcula valores reais
+ * depois de montado, evitando mismatch de hidratacao.
+ */
+function useCountdown(target: string) {
+  const [remaining, setRemaining] = useState<number | null>(null);
+
+  useEffect(() => {
+    const update = () => setRemaining(Math.max(0, new Date(target).getTime() - Date.now()));
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, [target]);
+
+  if (remaining === null) return null;
+
+  const totalSeconds = Math.floor(remaining / 1000);
+  return {
+    dias: Math.floor(totalSeconds / 86400),
+    horas: Math.floor((totalSeconds % 86400) / 3600),
+    minutos: Math.floor((totalSeconds % 3600) / 60),
+    segundos: totalSeconds % 60,
+  };
+}
+
+/**
  * Hero da Home: abertura editorial do proximo jogo como evento — composicao,
  * tipografia e fotografia antes de motion. Uma unica timeline coordenada
  * (nao efeitos isolados) e, no scroll, a composicao inteira recua com
@@ -47,10 +74,12 @@ export function Hero({ jogo }: { jogo: Jogo }) {
   const vsRef = useRef<HTMLSpanElement>(null);
   const adversarioRef = useRef<HTMLParagraphElement>(null);
   const dateRef = useRef<HTMLDivElement>(null);
+  const countdownRef = useRef<HTMLDivElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
   const actionsRef = useRef<HTMLDivElement>(null);
 
   const reducedMotion = usePrefersReducedMotion();
+  const countdown = useCountdown(jogo.dataHora);
 
   // timeZone fixo: a data/hora do jogo precisa renderizar igual no servidor
   // e no client, independente do fuso da maquina que fez o SSR.
@@ -121,6 +150,31 @@ export function Hero({ jogo }: { jogo: Jogo }) {
     };
   }, [reducedMotion]);
 
+  // O countdown so existe no DOM depois que useCountdown calcula o primeiro
+  // valor (evita mismatch de hidratacao) — por isso a entrada dele e uma
+  // animacao propria, independente da timeline principal: se ele entrasse
+  // na timeline de cima, a ref ainda seria null no instante em que a
+  // timeline monta e o countdown nunca mais ganharia sua animacao.
+  const countdownReady = countdown !== null;
+  useEffect(() => {
+    if (!countdownReady || !countdownRef.current) return;
+
+    if (reducedMotion) {
+      gsap.set(countdownRef.current, { opacity: 1, y: 0 });
+      return;
+    }
+
+    const animation = gsap.fromTo(
+      countdownRef.current,
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.5, ease: EASE_CINEMATIC_GSAP },
+    );
+
+    return () => {
+      animation.kill();
+    };
+  }, [countdownReady, reducedMotion]);
+
   useEffect(() => {
     if (reducedMotion || !sectionRef.current || !contentRef.current) return;
 
@@ -172,8 +226,8 @@ export function Hero({ jogo }: { jogo: Jogo }) {
             <div className="relative h-14 w-14 shrink-0 sm:h-20 sm:w-20">
               <Image src={ESCUDO_SRC} alt="" fill sizes="80px" style={{ objectFit: "contain" }} priority />
             </div>
-            <div className="relative h-9 w-9 shrink-0 opacity-60 sm:h-12 sm:w-12">
-              <Image src={jogo.escudoAdversario.url} alt="" fill sizes="48px" style={{ objectFit: "contain" }} />
+            <div className="relative h-12 w-12 shrink-0 sm:h-16 sm:w-16">
+              <Image src={jogo.escudoAdversario.url} alt="" fill sizes="64px" style={{ objectFit: "contain" }} />
             </div>
           </div>
 
@@ -200,6 +254,30 @@ export function Hero({ jogo }: { jogo: Jogo }) {
             <p className="font-mono-label mt-2 text-xs text-white/50 sm:text-sm">{jogo.local}</p>
             <p className="font-mono-label mt-1 text-xs text-white/50 sm:text-sm">{horaFormatada}</p>
           </div>
+
+          {jogo.status === "agendado" && countdown && (
+            <div
+              ref={countdownRef}
+              className="mt-8 flex gap-6 opacity-0 sm:gap-10"
+              aria-label="Contagem regressiva para o proximo jogo"
+            >
+              {(
+                [
+                  ["dias", countdown.dias],
+                  ["hrs", countdown.horas],
+                  ["min", countdown.minutos],
+                  ["seg", countdown.segundos],
+                ] as const
+              ).map(([label, value]) => (
+                <div key={label} className="flex flex-col items-start">
+                  <span className="font-display text-3xl tabular-nums text-white sm:text-4xl">
+                    {String(value).padStart(2, "0")}
+                  </span>
+                  <span className="font-mono-label mt-1 text-[10px] text-white/40">{label}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <HeroPhoto photoRef={photoRef} />
