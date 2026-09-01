@@ -22,6 +22,14 @@ const STATUS_LABEL: Record<Jogo["status"], string> = {
 };
 
 /**
+ * Selo da liga: hoje so temos o vetor da LFF (Liga Feminina de Futsal), por
+ * isso o check de nome — quando outras competicoes tiverem selo, isso vira
+ * um mapa competicao -> logo (ou um campo no CMS).
+ */
+const LFF_LOGO_SRC = "/brand/liga-lff-icon.png";
+const isLigaFemininaFutsal = (competicao: string) => competicao.startsWith("Liga Feminina de Futsal");
+
+/**
  * Hero da Home: abertura editorial do proximo jogo como evento — composicao,
  * tipografia e fotografia antes de motion. Uma unica timeline coordenada
  * (nao efeitos isolados) e, no scroll, a composicao inteira recua com
@@ -32,7 +40,7 @@ export function Hero({ jogo }: { jogo: Jogo }) {
   const contentRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const tagRef = useRef<HTMLDivElement>(null);
-  const kickerRef = useRef<HTMLParagraphElement>(null);
+  const kickerRef = useRef<HTMLDivElement>(null);
   const statusRef = useRef<HTMLParagraphElement>(null);
   const shieldsRef = useRef<HTMLDivElement>(null);
   const leoasRef = useRef<HTMLHeadingElement>(null);
@@ -150,9 +158,12 @@ export function Hero({ jogo }: { jogo: Jogo }) {
         <HeroEditorialTag tagRef={tagRef} />
 
         <div className="hero-info flex flex-col justify-center">
-          <p ref={kickerRef} className="font-mono-label text-xs text-white/55 opacity-0">
-            {jogo.competicao}
-          </p>
+          <div ref={kickerRef} className="flex items-center gap-2.5 opacity-0">
+            {isLigaFemininaFutsal(jogo.competicao) && (
+              <Image src={LFF_LOGO_SRC} alt="" width={51} height={16} className="h-4 w-auto opacity-80" />
+            )}
+            <p className="font-mono-label text-xs text-white/55">{jogo.competicao}</p>
+          </div>
           <p ref={statusRef} className="font-mono-label mt-2 text-sm text-red opacity-0 sm:text-base">
             {STATUS_LABEL[jogo.status]}
           </p>

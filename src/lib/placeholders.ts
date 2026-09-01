@@ -85,14 +85,17 @@ function escalacaoDe(numeros: number[]): EscalacaoAtleta[] {
   }));
 }
 
-// TODO: substituir pelo proximo jogo real vindo do Sanity (schema `jogo`).
+// Proximo jogo real: Leoas da Serra x Female Futsal, quartas de final da
+// LFF 2026. TODO: local ainda e um palpite (Ginasio Municipal, Lages - SC)
+// — confirmar o ginasio real e trocar por escalacao/stats quando o CMS
+// existir.
 export const PROXIMO_JOGO_PLACEHOLDER: Jogo = {
-  _id: "placeholder-proximo-jogo",
-  slug: "proximo-jogo",
-  competicao: "Liga Feminina de Futsal",
-  adversario: "A definir",
-  escudoAdversario: { url: "/placeholders/escudo-adversario.svg", alt: "Escudo do adversario", width: 96, height: 96 },
-  dataHora: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toISOString(),
+  _id: "leoas-x-female-futsal-quartas-lff-2026",
+  slug: "leoas-x-female-futsal-quartas-lff-2026",
+  competicao: "Liga Feminina de Futsal · Quartas de Final",
+  adversario: "Female Futsal",
+  escudoAdversario: { url: "/brand/escudo-female-futsal.png", alt: "Escudo do Female Futsal", width: 423, height: 541 },
+  dataHora: "2026-09-02T20:00:00-03:00",
   local: "Ginasio Municipal, Lages - SC",
   mandante: true,
   ingressoUrl: undefined,
