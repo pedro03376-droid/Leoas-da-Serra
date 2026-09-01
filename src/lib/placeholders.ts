@@ -192,25 +192,55 @@ function tamanhosPadrao(prefixoId: string): { tamanho: string; variantesId: stri
   }));
 }
 
+// Tamanhos reais da camisa oficial (levantados na planilha de pedidos do
+// clube): unissex, "baby look" (corte feminino, prefixo BL) e infantil.
+// TODO: variantesId de cada tamanho ainda depende da Nuvemshop conectada.
+const TAMANHOS_CAMISA_OFICIAL = ["P", "M", "G", "GG", "XG", "BLG", "BLGG", "BLXG", "Infantil 12"].map((tamanho) => ({
+  tamanho,
+  variantesId: `TODO-nuvemshop-variant-camisa-oficial-${tamanho}`,
+  disponivel: true,
+}));
+
 // TODO: substituir pelos produtos reais da Nuvemshop/Sanity (schema
 // `produtoDestaque`) — nome, preco, descricao, tamanhos e as 4-5 fotos de
 // cada camisa (imagensGaleria) assim que estiverem prontos.
 export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
   {
-    _id: "placeholder-camisa-oficial",
+    _id: "camisa-oficial-leoas-2026",
     nome: "Camisa Oficial Leoas da Serra",
     slug: "camisa-oficial",
-    precoCentavos: 24900,
+    precoCentavos: 9990,
     categoria: "camisa",
-    imagem: { url: "/placeholders/camisa.svg", alt: "Camisa oficial Leoas da Serra", width: 800, height: 1000 },
-    // Demonstra a galeria de fotos do produto — troque pelas fotos reais.
+    imagem: {
+      url: "/products/camisa-oficial/01-frente.png",
+      alt: "Camisa oficial Leoas da Serra, vista de frente",
+      width: 1200,
+      height: 1815,
+    },
     imagensGaleria: [
-      { url: "/placeholders/camisa.svg", alt: "Camisa oficial Leoas da Serra — costas", width: 800, height: 1000 },
-      { url: "/placeholders/camisa.svg", alt: "Camisa oficial Leoas da Serra — detalhe", width: 800, height: 1000 },
+      {
+        url: "/products/camisa-oficial/02-dupla.jpg",
+        alt: "Duas atletas das Leoas da Serra usando a camisa oficial em quadra",
+        width: 1200,
+        height: 1500,
+      },
+      {
+        url: "/products/camisa-oficial/03-costas.jpg",
+        alt: "Camisa oficial Leoas da Serra, vista de costas, com numero e nome",
+        width: 1200,
+        height: 1500,
+      },
+      {
+        url: "/products/camisa-oficial/04-acao.jpg",
+        alt: "Atleta das Leoas da Serra usando a camisa oficial durante jogo",
+        width: 1200,
+        height: 1500,
+      },
     ],
-    descricao: "TODO: descricao real do produto vinda da Nuvemshop.",
+    // TODO: descricao real do produto (tecido, patrocinadores, uniforme de jogo x replica etc.)
+    descricao: "Camisa oficial das Leoas da Serra, usada em quadra pelo elenco na temporada 2026.",
     variantesId: "TODO-nuvemshop-product-id",
-    tamanhos: tamanhosPadrao("camisa-oficial"),
+    tamanhos: TAMANHOS_CAMISA_OFICIAL,
     emCampanha: true,
   },
   {
