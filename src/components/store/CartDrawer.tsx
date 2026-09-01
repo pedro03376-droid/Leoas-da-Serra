@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "./CartContext";
-import { onCheckout } from "@/lib/nuvemshop";
+import { onCheckout, resolverVariantesId } from "@/lib/nuvemshop";
 import { formatarPreco } from "@/lib/format";
 
 /** Sacola lateral: checkout agnostico chamando onCheckout() -> Nuvemshop. */
@@ -48,17 +48,20 @@ export function CartDrawer() {
               ) : (
                 <ul className="space-y-6">
                   {lines.map((line) => (
-                    <li key={line.produto._id} className="flex gap-4">
+                    <li key={`${line.produto._id}-${line.tamanho ?? "unico"}`} className="flex gap-4">
                       <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-sm bg-card">
                         <Image src={line.produto.imagem.url} alt="" fill sizes="64px" className="object-cover" />
                       </div>
                       <div className="flex flex-1 flex-col">
                         <span className="text-sm text-white">{line.produto.nome}</span>
-                        <span className="mt-1 text-xs text-gray">Qtd. {line.quantidade}</span>
+                        <span className="mt-1 text-xs text-gray">
+                          {line.tamanho && <>Tamanho {line.tamanho} · </>}
+                          Qtd. {line.quantidade}
+                        </span>
                         <span className="mt-1 text-sm text-white">{formatarPreco(line.produto.precoCentavos)}</span>
                         <button
                           type="button"
-                          onClick={() => removeItem(line.produto._id)}
+                          onClick={() => removeItem(line.produto._id, line.tamanho)}
                           className="font-mono-label mt-2 w-fit text-[11px] text-gray hover:text-red"
                         >
                           Remover
@@ -79,7 +82,12 @@ export function CartDrawer() {
                 type="button"
                 disabled={lines.length === 0}
                 onClick={() =>
-                  onCheckout(lines.map((line) => ({ variantesId: line.produto.variantesId, quantidade: line.quantidade })))
+                  onCheckout(
+                    lines.map((line) => ({
+                      variantesId: resolverVariantesId(line.produto, line.tamanho),
+                      quantidade: line.quantidade,
+                    })),
+                  )
                 }
                 className="font-mono-label mt-4 w-full rounded-full bg-red py-3 text-xs text-white transition-colors hover:bg-red-dark disabled:cursor-not-allowed disabled:opacity-40"
               >

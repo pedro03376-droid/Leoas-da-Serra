@@ -91,7 +91,7 @@ export const parceirosQuery = groq`
 
 export const produtosDestaqueQuery = groq`
   *[_type == "produtoDestaque"] | order(emCampanha desc){
-    _id, nome, "slug": slug.current, precoCentavos, categoria, descricao, variantesId, emCampanha,
+    _id, nome, "slug": slug.current, precoCentavos, categoria, descricao, variantesId, tamanhos, emCampanha,
     "imagem": imagem${imageFragment},
     "imagensGaleria": imagensGaleria[]${imageFragment}
   }
@@ -99,7 +99,7 @@ export const produtosDestaqueQuery = groq`
 
 export const produtoPorSlugQuery = groq`
   *[_type == "produtoDestaque" && slug.current == $slug][0]{
-    _id, nome, "slug": slug.current, precoCentavos, categoria, descricao, variantesId, emCampanha,
+    _id, nome, "slug": slug.current, precoCentavos, categoria, descricao, variantesId, tamanhos, emCampanha,
     "imagem": imagem${imageFragment},
     "imagensGaleria": imagensGaleria[]${imageFragment}
   }

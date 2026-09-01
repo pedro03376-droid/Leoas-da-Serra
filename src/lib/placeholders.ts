@@ -182,7 +182,19 @@ export const NOTICIAS_PLACEHOLDER: Noticia[] = Array.from({ length: 5 }).map((_,
   destaque: index === 0,
 }));
 
-// TODO: substituir pelos produtos reais da Nuvemshop/Sanity (schema `produtoDestaque`).
+// TODO: substituir pelo variantesId real de cada tamanho quando a Nuvemshop
+// estiver conectada — cada tamanho e uma variante/SKU propria la.
+function tamanhosPadrao(prefixoId: string): { tamanho: string; variantesId: string; disponivel: boolean }[] {
+  return ["P", "M", "G", "GG"].map((tamanho) => ({
+    tamanho,
+    variantesId: `TODO-nuvemshop-variant-${prefixoId}-${tamanho}`,
+    disponivel: true,
+  }));
+}
+
+// TODO: substituir pelos produtos reais da Nuvemshop/Sanity (schema
+// `produtoDestaque`) — nome, preco, descricao, tamanhos e as 4-5 fotos de
+// cada camisa (imagensGaleria) assim que estiverem prontos.
 export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
   {
     _id: "placeholder-camisa-oficial",
@@ -191,8 +203,14 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     precoCentavos: 24900,
     categoria: "camisa",
     imagem: { url: "/placeholders/camisa.svg", alt: "Camisa oficial Leoas da Serra", width: 800, height: 1000 },
+    // Demonstra a galeria de fotos do produto — troque pelas fotos reais.
+    imagensGaleria: [
+      { url: "/placeholders/camisa.svg", alt: "Camisa oficial Leoas da Serra — costas", width: 800, height: 1000 },
+      { url: "/placeholders/camisa.svg", alt: "Camisa oficial Leoas da Serra — detalhe", width: 800, height: 1000 },
+    ],
     descricao: "TODO: descricao real do produto vinda da Nuvemshop.",
     variantesId: "TODO-nuvemshop-product-id",
+    tamanhos: tamanhosPadrao("camisa-oficial"),
     emCampanha: true,
   },
   {
@@ -204,6 +222,7 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     imagem: { url: "/placeholders/camisa.svg", alt: "Camisa de treino Leoas da Serra", width: 800, height: 1000 },
     descricao: "TODO: descricao real do produto vinda da Nuvemshop.",
     variantesId: "TODO-nuvemshop-product-id-2",
+    tamanhos: tamanhosPadrao("camisa-treino"),
   },
   {
     _id: "placeholder-cachecol",
@@ -214,5 +233,6 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     imagem: { url: "/placeholders/camisa.svg", alt: "Cachecol Leoas da Serra", width: 800, height: 1000 },
     descricao: "TODO: descricao real do produto vinda da Nuvemshop.",
     variantesId: "TODO-nuvemshop-product-id-3",
+    // sem tamanhos — acessorio unico
   },
 ];

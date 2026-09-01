@@ -3,9 +3,16 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import type { ProdutoDestaque } from "@/types/content";
 
-interface CartLine {
+export interface CartLine {
   produto: ProdutoDestaque;
   quantidade: number;
+  /** Ausente para produtos sem grade de tamanho. */
+  tamanho?: string;
+}
+
+/** Duas linhas do mesmo produto so sao "a mesma linha" se o tamanho tambem bater. */
+function mesmaLinha(a: { produtoId: string; tamanho?: string }, b: { produtoId: string; tamanho?: string }) {
+  return a.produtoId === b.produtoId && a.tamanho === b.tamanho;
 }
 
 interface CartContextValue {
@@ -13,8 +20,8 @@ interface CartContextValue {
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
-  addItem: (produto: ProdutoDestaque) => void;
-  removeItem: (produtoId: string) => void;
+  addItem: (produto: ProdutoDestaque, tamanho?: string) => void;
+  removeItem: (produtoId: string, tamanho?: string) => void;
   totalCentavos: number;
 }
 
@@ -24,21 +31,25 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const addItem = (produto: ProdutoDestaque) => {
+  const addItem = (produto: ProdutoDestaque, tamanho?: string) => {
     setLines((current) => {
-      const existing = current.find((line) => line.produto._id === produto._id);
+      const alvo = { produtoId: produto._id, tamanho };
+      const existing = current.find((line) => mesmaLinha({ produtoId: line.produto._id, tamanho: line.tamanho }, alvo));
       if (existing) {
         return current.map((line) =>
-          line.produto._id === produto._id ? { ...line, quantidade: line.quantidade + 1 } : line,
+          mesmaLinha({ produtoId: line.produto._id, tamanho: line.tamanho }, alvo)
+            ? { ...line, quantidade: line.quantidade + 1 }
+            : line,
         );
       }
-      return [...current, { produto, quantidade: 1 }];
+      return [...current, { produto, quantidade: 1, tamanho }];
     });
     setIsOpen(true);
   };
 
-  const removeItem = (produtoId: string) => {
-    setLines((current) => current.filter((line) => line.produto._id !== produtoId));
+  const removeItem = (produtoId: string, tamanho?: string) => {
+    const alvo = { produtoId, tamanho };
+    setLines((current) => current.filter((line) => !mesmaLinha({ produtoId: line.produto._id, tamanho: line.tamanho }, alvo)));
   };
 
   const totalCentavos = useMemo(

@@ -8,6 +8,7 @@ import type { ProdutoDestaque } from "@/types/content";
 
 export function ProductCard({ produto }: { produto: ProdutoDestaque }) {
   const { addItem } = useCart();
+  const temTamanhos = Boolean(produto.tamanhos && produto.tamanhos.length > 0);
 
   return (
     <div className="group">
@@ -27,14 +28,25 @@ export function ProductCard({ produto }: { produto: ProdutoDestaque }) {
           </Link>
           <p className="mt-1 text-sm text-gray">{formatarPreco(produto.precoCentavos)}</p>
         </div>
-        <button
-          type="button"
-          onClick={() => addItem(produto)}
-          aria-label={`Adicionar ${produto.nome} a sacola`}
-          className="font-mono-label shrink-0 rounded-full border border-line px-3 py-2 text-[11px] text-white/80 transition-colors hover:border-red hover:text-white"
-        >
-          +
-        </button>
+        {temTamanhos ? (
+          // Produto tem grade de tamanho — nunca escolhe por ela, manda pra pagina escolher.
+          <Link
+            href={`/loja/${produto.slug}`}
+            aria-label={`Escolher tamanho de ${produto.nome}`}
+            className="font-mono-label shrink-0 rounded-full border border-line px-3 py-2 text-[11px] text-white/80 transition-colors hover:border-red hover:text-white"
+          >
+            +
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={() => addItem(produto)}
+            aria-label={`Adicionar ${produto.nome} a sacola`}
+            className="font-mono-label shrink-0 rounded-full border border-line px-3 py-2 text-[11px] text-white/80 transition-colors hover:border-red hover:text-white"
+          >
+            +
+          </button>
+        )}
       </div>
     </div>
   );

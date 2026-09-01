@@ -148,6 +148,26 @@ troque `NEXT_PUBLIC_NUVEMSHOP_STORE_URL` pelo dominio real, e se a integracao
 evoluir para o Buy Button / Checkout API da Nuvemshop, o corpo dessa funcao
 e o unico lugar a mudar.
 
+### Tamanhos e fotos do produto
+
+Cada tamanho (`ProdutoDestaque.tamanhos`, tipo `VarianteTamanho`) e uma
+variante/SKU propria na Nuvemshop — `resolverVariantesId()` em
+`src/lib/nuvemshop.ts` escolhe o id certo na hora do checkout a partir do
+tamanho escolhido na pagina do produto (`ProductDetail.tsx`, que tambem
+mostra a galeria de fotos a partir de `imagem` + `imagensGaleria`). Produto
+sem `tamanhos` (ex.: cachecol) usa o `variantesId` do produto direto, e o
+"+" rapido da grade (`ProductCard.tsx`) some nesse caso — vira link pra
+pagina, pra nunca escolher tamanho pela cliente.
+
+**Pra cadastrar as camisas em lote agora** (antes do Sanity existir): me
+manda nome, preco, categoria, os tamanhos disponiveis e as 4-5 fotos de
+cada camisa, e eu cadastro tudo de uma vez em `src/lib/placeholders.ts`
+(`PRODUTOS_PLACEHOLDER`) — funciona no site imediatamente. Os
+`variantesId` de cada tamanho ficam `TODO` ate a Nuvemshop estar
+conectada; a estrutura ja é a mesma que o Sanity vai usar depois (schema
+`produtoDestaque` em `src/sanity/schemas/produtoDestaque.ts`), entao
+migrar pro CMS mais tarde e so preencher o mesmo formato la.
+
 ## Variaveis de ambiente
 
 Copie `.env.example` para `.env.local` e preencha quando o CMS/loja

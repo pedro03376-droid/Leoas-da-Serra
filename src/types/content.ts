@@ -118,6 +118,17 @@ export interface Parceiro {
 
 export type CategoriaProduto = "camisa" | "acessorio" | "colecao";
 
+/**
+ * Cada tamanho e um SKU/variante proprio na Nuvemshop (o normal em qualquer
+ * loja real — "Camisa P" e "Camisa M" sao produtos/variantes diferentes,
+ * nao o mesmo variantesId com um rotulo de tamanho colado por cima).
+ */
+export interface VarianteTamanho {
+  tamanho: string;
+  variantesId: string;
+  disponivel?: boolean;
+}
+
 export interface ProdutoDestaque {
   _id: string;
   nome: string;
@@ -127,6 +138,9 @@ export interface ProdutoDestaque {
   imagem: SanityImageRef;
   imagensGaleria?: SanityImageRef[];
   descricao?: string;
-  variantesId: string; // referencia ao produto na Nuvemshop
+  /** Referencia ao produto na Nuvemshop — usada direto so quando o produto nao tem tamanhos. */
+  variantesId: string;
+  /** Ausente = produto sem grade de tamanho (ex.: cachecol). */
+  tamanhos?: VarianteTamanho[];
   emCampanha?: boolean;
 }

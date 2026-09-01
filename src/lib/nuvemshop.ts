@@ -17,6 +17,17 @@ export interface CheckoutItem {
   quantidade: number;
 }
 
+/**
+ * Resolve o variantesId certo pra mandar no checkout: se a jogadora
+ * escolheu um tamanho, e a variante daquele tamanho (cada tamanho e um
+ * SKU proprio na Nuvemshop); senao, o variantesId do produto em si
+ * (produtos sem grade, como o cachecol).
+ */
+export function resolverVariantesId(produto: { variantesId: string; tamanhos?: { tamanho: string; variantesId: string }[] }, tamanho?: string): string {
+  if (!tamanho) return produto.variantesId;
+  return produto.tamanhos?.find((v) => v.tamanho === tamanho)?.variantesId ?? produto.variantesId;
+}
+
 export function onCheckout(items: CheckoutItem[]): void {
   if (items.length === 0) return;
 

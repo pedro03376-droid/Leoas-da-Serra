@@ -44,8 +44,25 @@ export const produtoDestaque = defineType({
     defineField({
       name: "variantesId",
       title: "ID do produto na Nuvemshop",
+      description: "Usado direto so quando o produto NAO tem grade de tamanho (ver campo Tamanhos).",
       type: "string",
       validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "tamanhos",
+      title: "Tamanhos",
+      description: "Deixe vazio para produtos sem grade (ex.: cachecol). Cada tamanho e uma variante/SKU propria na Nuvemshop.",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            { name: "tamanho", title: "Tamanho (P, M, G, GG...)", type: "string" },
+            { name: "variantesId", title: "ID da variante na Nuvemshop", type: "string" },
+            { name: "disponivel", title: "Disponivel", type: "boolean", initialValue: true },
+          ],
+        },
+      ],
     }),
     defineField({ name: "emCampanha", title: "Destaque de campanha (hero)", type: "boolean", initialValue: false }),
   ],
