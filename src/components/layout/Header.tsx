@@ -18,8 +18,11 @@ const MENU_LINKS = [
 
 /**
  * Header fixo com blur no scroll. Topo enxuto: so os CTAs que geram receita
- * (ingressos, loja) ficam sempre visiveis — o resto vive no menu
- * (inspiracao Real Madrid: rigor institucional, hierarquia limpa).
+ * (ingressos, loja) ficam sempre visiveis no desktop — o resto vive no menu
+ * (inspiracao Real Madrid: rigor institucional, hierarquia limpa). No
+ * mobile, ingressos/loja ja vivem na barra flutuante (MobileActionBar), entao
+ * o header so precisa de sacola + menu — evita empilhar botoes e a marca
+ * quebrando linha no mesmo espaco estreito.
  */
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -40,43 +43,49 @@ export function Header() {
         scrolled ? "border-b border-line bg-black/70 backdrop-blur-md" : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-8">
-        <Link href="/" className="flex items-center gap-3" aria-label="Leoas da Serra, pagina inicial">
-          <Image src={ESCUDO_SRC} alt="" width={32} height={48} className="h-10 w-auto sm:h-12" />
-          <span className="font-display text-lg text-white">Leoas da Serra</span>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-8">
+        <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3" aria-label="Leoas da Serra, pagina inicial">
+          <Image src={ESCUDO_SRC} alt="" width={32} height={48} className="h-9 w-auto shrink-0 sm:h-12" />
+          <span className="font-display truncate text-base leading-none text-white sm:text-lg">Leoas da Serra</span>
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Navegacao principal">
           {MENU_LINKS.slice(0, 3).map((link) => (
-            <HoverLink key={link.href} href={link.href} className="font-mono-label text-xs text-white/80">
+            <HoverLink key={link.href} href={link.href} className="text-sm text-white/80">
               {link.label}
             </HoverLink>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <Link
             href="/loja"
-            className="font-mono-label hidden rounded-full border border-line px-4 py-2 text-xs text-white transition-colors hover:border-red sm:inline-block"
+            className="hidden rounded-full border border-line px-4 py-2 text-sm text-white transition-colors hover:border-red sm:inline-block"
           >
             Loja
           </Link>
+
           <button
             type="button"
             onClick={openCart}
             aria-label={`Abrir sacola${itemCount > 0 ? `, ${itemCount} itens` : ""}`}
-            className="font-mono-label relative rounded-full border border-line px-4 py-2 text-xs text-white/80 transition-colors hover:border-red hover:text-white"
+            className="relative rounded-full border border-line p-2.5 text-white/80 transition-colors hover:border-red hover:text-white sm:px-4 sm:py-2 sm:text-sm"
           >
-            Sacola
+            <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4 sm:hidden" fill="none" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 8h12l-1 12H7L6 8Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 8V6a3 3 0 0 1 6 0v2" />
+            </svg>
+            <span className="hidden sm:inline">Sacola</span>
             {itemCount > 0 && (
               <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-red text-[10px] text-white">
                 {itemCount}
               </span>
             )}
           </button>
+
           <Link
             href="/ingressos"
-            className="font-mono-label rounded-full bg-red px-4 py-2 text-xs text-white transition-colors hover:bg-red-dark"
+            className="hidden rounded-full bg-red px-4 py-2 text-sm text-white transition-colors hover:bg-red-dark sm:inline-block"
           >
             Ingressos
           </Link>
@@ -86,7 +95,7 @@ export function Header() {
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="menu-completo"
-            className="font-mono-label rounded-full border border-line px-4 py-2 text-xs text-white/80 transition-colors hover:border-red hover:text-white"
+            className="rounded-full border border-line px-3.5 py-2.5 text-sm text-white/80 transition-colors hover:border-red hover:text-white sm:px-4 sm:py-2"
           >
             {menuOpen ? "Fechar" : "Menu"}
           </button>
@@ -112,6 +121,22 @@ export function Header() {
               </li>
             ))}
           </ul>
+          <div className="mt-6 flex flex-wrap gap-3 sm:hidden">
+            <Link
+              href="/loja"
+              onClick={() => setMenuOpen(false)}
+              className="rounded-full border border-line px-4 py-2 text-sm text-white"
+            >
+              Loja
+            </Link>
+            <Link
+              href="/ingressos"
+              onClick={() => setMenuOpen(false)}
+              className="rounded-full bg-red px-4 py-2 text-sm text-white"
+            >
+              Ingressos
+            </Link>
+          </div>
         </nav>
       )}
     </header>

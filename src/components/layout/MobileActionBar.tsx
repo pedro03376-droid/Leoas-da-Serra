@@ -20,7 +20,7 @@ export function MobileActionBar() {
         <Link
           key={action.href}
           href={action.href}
-          className="font-mono-label flex-1 rounded-full px-3 py-2.5 text-center text-[11px] text-white/85 transition-colors active:bg-red active:text-white"
+          className="flex-1 rounded-full px-3 py-2.5 text-center text-xs text-white/85 transition-colors active:bg-red active:text-white"
         >
           {action.label}
         </Link>
