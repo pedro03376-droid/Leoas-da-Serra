@@ -1,0 +1,7 @@
+<!-- TODO: substituir pela foto real da camisa oficial -->
+<svg width="800" height="1000" viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Camisa oficial (placeholder)">
+  <rect width="800" height="1000" fill="#131313"/>
+  <path d="M260 120 L340 80 L400 130 L460 80 L540 120 L620 220 L540 300 L500 260 V860 H300 V260 L260 300 L180 220 Z" fill="#E10600"/>
+  <path d="M400 130 L460 80" stroke="#080808" stroke-width="8" fill="none"/>
+  <circle cx="400" cy="500" r="60" fill="#080808" opacity="0.15"/>
+</svg>

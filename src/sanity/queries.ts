@@ -1,0 +1,65 @@
+import groq from "groq";
+
+const imageFragment = groq`{
+  "url": asset->url,
+  "alt": coalesce(alt, ""),
+  "width": asset->metadata.dimensions.width,
+  "height": asset->metadata.dimensions.height
+}`;
+
+export const proximoJogoQuery = groq`
+  *[_type == "jogo" && status != "encerrado"] | order(dataHora asc)[0]{
+    _id, competicao, adversario, dataHora, local, mandante,
+    placarLeoas, placarAdversario, transmissaoUrl, ingressoUrl, status,
+    "escudoAdversario": escudoAdversario${imageFragment}
+  }
+`;
+
+export const noticiasQuery = groq`
+  *[_type == "noticia"] | order(publicadoEm desc)[0...9]{
+    _id, titulo, resumo, "slug": slug.current, publicadoEm, destaque,
+    "capa": capa${imageFragment}
+  }
+`;
+
+export const titulosQuery = groq`
+  *[_type == "titulo"] | order(conquistadoEm desc){
+    _id, competicao, temporada, conquistadoEm
+  }
+`;
+
+export const temporadaAtualQuery = groq`
+  *[_type == "temporada"] | order(ano desc)[0]{
+    _id, ano, vitorias, empates, derrotas, golsPro, golsContra
+  }
+`;
+
+export const elencoQuery = groq`
+  *[_type == "atleta"] | order(numero asc){
+    _id, nome, numero, posicao, altura, bio,
+    "foto": foto${imageFragment}
+  }
+`;
+
+export const parceirosQuery = groq`
+  *[_type == "parceiro"] | order(nivel asc){
+    _id, nome, nivel, url,
+    "logo": logo${imageFragment}
+  }
+`;
+
+export const produtosDestaqueQuery = groq`
+  *[_type == "produtoDestaque"] | order(emCampanha desc){
+    _id, nome, "slug": slug.current, precoCentavos, categoria, descricao, variantesId, emCampanha,
+    "imagem": imagem${imageFragment},
+    "imagensGaleria": imagensGaleria[]${imageFragment}
+  }
+`;
+
+export const produtoPorSlugQuery = groq`
+  *[_type == "produtoDestaque" && slug.current == $slug][0]{
+    _id, nome, "slug": slug.current, precoCentavos, categoria, descricao, variantesId, emCampanha,
+    "imagem": imagem${imageFragment},
+    "imagensGaleria": imagensGaleria[]${imageFragment}
+  }
+`;

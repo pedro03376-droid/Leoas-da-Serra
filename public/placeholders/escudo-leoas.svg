@@ -1,0 +1,13 @@
+<!-- TODO: substituir pelo vetor oficial do escudo das Leoas da Serra -->
+<svg width="200" height="220" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Escudo Leoas da Serra (placeholder)">
+  <path d="M100 4 L188 34 V110 C188 162 150 200 100 216 C50 200 12 162 12 110 V34 Z" fill="#080808" stroke="#E10600" stroke-width="4"/>
+  <path d="M100 20 L172 44 V108 C172 152 142 182 100 196 C58 182 28 152 28 108 V44 Z" fill="#131313"/>
+  <g fill="#FFFFFF">
+    <ellipse cx="100" cy="112" rx="44" ry="34"/>
+    <circle cx="82" cy="98" r="7" fill="#080808"/>
+    <circle cx="118" cy="98" r="7" fill="#080808"/>
+    <path d="M100 110 L92 122 H108 Z" fill="#E10600"/>
+    <path d="M60 78 L74 96 L58 100 Z"/>
+    <path d="M140 78 L126 96 L142 100 Z"/>
+  </g>
+</svg>

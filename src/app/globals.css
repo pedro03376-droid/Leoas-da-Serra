@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+:root {
+  --black: #080808; /* fundo principal */
+  --ink: #131313; /* superficies elevadas */
+  --card: #1a1a1a; /* cards */
+  --red: #e10600; /* institucional Leoas / acento */
+  --red-dark: #a80400; /* hover / profundidade */
+  --white: #ffffff;
+  --gray: #8c8c8c; /* texto secundario */
+  --line: rgba(255, 255, 255, 0.1);
+
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-black: var(--black);
+  --color-ink: var(--ink);
+  --color-card: var(--card);
+  --color-red: var(--red);
+  --color-red-dark: var(--red-dark);
+  --color-white: var(--white);
+  --color-gray: var(--gray);
+  --color-line: var(--line);
+
+  --font-display: var(--font-archivo);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--red);
+  color: var(--white);
+}
+
+/* Piso de acessibilidade: foco de teclado sempre visivel */
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* prefers-reduced-motion respeitado em TODA animacao, inclusive a intro */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+
+.font-mono-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Hover pattern: zoom leve em imagens dentro de cards */
+.hover-zoom {
+  overflow: hidden;
+}
+
+.hover-zoom img {
+  transition: transform 0.7s var(--ease-cinematic);
+}
+
+.hover-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* Lenis smooth scroll: altura natural, o Lenis controla o transform do wrapper */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
