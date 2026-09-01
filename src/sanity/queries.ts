@@ -7,12 +7,44 @@ const imageFragment = groq`{
   "height": asset->metadata.dimensions.height
 }`;
 
+const escalacaoFragment = groq`{
+  "atletaId": atleta->_id,
+  "slug": atleta->slug.current,
+  "numero": atleta->numero,
+  "nome": atleta->nome,
+  "posicao": atleta->posicao,
+  "foto": atleta->foto${imageFragment},
+  titular
+}`;
+
+const jogoCompletoFragment = groq`{
+  _id, competicao, adversario, "slug": slug.current, dataHora, local, mandante,
+  placarLeoas, placarAdversario, transmissaoUrl, ingressoUrl, status,
+  "escudoAdversario": escudoAdversario${imageFragment},
+  "escalacaoLeoas": escalacaoLeoas[]${escalacaoFragment},
+  eventos,
+  statsComparativas,
+  "fotos": fotos[]${imageFragment}
+}`;
+
 export const proximoJogoQuery = groq`
   *[_type == "jogo" && status != "encerrado"] | order(dataHora asc)[0]{
-    _id, competicao, adversario, dataHora, local, mandante,
+    _id, competicao, adversario, "slug": slug.current, dataHora, local, mandante,
     placarLeoas, placarAdversario, transmissaoUrl, ingressoUrl, status,
     "escudoAdversario": escudoAdversario${imageFragment}
   }
+`;
+
+export const jogosQuery = groq`
+  *[_type == "jogo"] | order(dataHora desc){
+    _id, competicao, adversario, "slug": slug.current, dataHora, local, mandante,
+    placarLeoas, placarAdversario, status,
+    "escudoAdversario": escudoAdversario${imageFragment}
+  }
+`;
+
+export const jogoPorSlugQuery = groq`
+  *[_type == "jogo" && slug.current == $slug][0]${jogoCompletoFragment}
 `;
 
 export const noticiasQuery = groq`
@@ -36,8 +68,17 @@ export const temporadaAtualQuery = groq`
 
 export const elencoQuery = groq`
   *[_type == "atleta"] | order(numero asc){
-    _id, nome, numero, posicao, altura, bio,
+    _id, nome, "slug": slug.current, numero, posicao, altura, bio,
     "foto": foto${imageFragment}
+  }
+`;
+
+export const atletaPorSlugQuery = groq`
+  *[_type == "atleta" && slug.current == $slug][0]{
+    _id, nome, "slug": slug.current, numero, posicao, altura, bio,
+    "foto": foto${imageFragment},
+    statsPosicao,
+    "midia": midia[]${imageFragment}
   }
 `;
 

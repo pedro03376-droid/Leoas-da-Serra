@@ -33,8 +33,18 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="font-mono-label text-xs text-gray">Institucional</p>
+          <p className="font-mono-label text-xs text-gray">Clube</p>
           <ul className="mt-3 space-y-1.5 text-sm text-white/80">
+            <li>
+              <Link href="/elenco" className="hover:text-red">
+                Elenco
+              </Link>
+            </li>
+            <li>
+              <Link href="/agenda" className="hover:text-red">
+                Agenda
+              </Link>
+            </li>
             <li>
               <Link href="/historia" className="hover:text-red">
                 Historia

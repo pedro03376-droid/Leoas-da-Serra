@@ -2,9 +2,10 @@
 
 Site oficial das Leoas da Serra — futsal feminino de Lages, Santa Catarina.
 
-Construido em fases: **Fase 1** (este repositorio, no estado atual) cobre a
-intro cinematografica, a Home e a Loja. Fases 2 (Match Center, elenco, perfil
-da atleta) e 3 (institucional) vem depois, uma secao por vez.
+Construido em fases: **Fase 1** cobriu a intro cinematografica, a Home e a
+Loja. **Fase 2** (neste repositorio, no estado atual) adiciona o Match
+Center, o elenco editorial e o perfil da atleta. Fase 3 (institucional) vem
+depois, uma secao por vez.
 
 ## Stack
 
@@ -42,17 +43,23 @@ src/
     page.tsx              # Home
     loja/page.tsx          # Loja — colecao
     loja/[slug]/page.tsx   # Loja — produto
+    agenda/page.tsx         # Agenda — lista de jogos (proximos e resultados)
+    jogos/[slug]/page.tsx   # Match Center — pagina de cada jogo
+    elenco/page.tsx         # Elenco — grid editorial
+    elenco/[slug]/page.tsx  # Perfil da atleta
   components/
     intro/                # Intro cinematografica (Intro.tsx, IntroGate.tsx)
     motion/                # Motion system: os 9 padroes reutilizaveis
     layout/                # Header, Footer, MobileActionBar
     home/                  # Secoes da Home
     store/                 # Loja: cart, product card, collection, etc.
+    match/                 # Match Center: header, stats, timeline, escalacao, fotos
+    roster/                 # Elenco: card editorial, perfil da atleta
   lib/
     content.ts             # camada de leitura de conteudo (Sanity -> placeholder)
     placeholders.ts        # dados provisorios, TODO ate o CMS
     nuvemshop.ts            # onCheckout() -> Nuvemshop
-    fonts.ts, motion.ts, cn.ts, format.ts
+    fonts.ts, motion.ts, cn.ts, format.ts, brand.ts
   sanity/
     client.ts, env.ts, queries.ts
     schemas/                # modelo de conteudo (ver "CMS" abaixo)
@@ -77,6 +84,22 @@ quando `prefers-reduced-motion: reduce` esta ativo — a intro incluida.
 `prefers-reduced-motion`, e sempre tem um botao "Pular" visivel. Sem video —
 so tipografia, o escudo oficial, formas geometricas, linhas e mascaras,
 exatamente como especificado no documento de instrucao original.
+
+## Match Center e Elenco
+
+`/agenda` lista os jogos (proximos e resultados, `src/lib/content.ts#getJogos`)
+e cada card leva ao Match Center do jogo em `/jogos/[slug]`: placar,
+estatisticas comparativas (barras Leoas x adversario), timeline de eventos
+minuto a minuto e a escalacao das Leoas, cada jogadora linkando para o
+proprio perfil.
+
+`/elenco` e a grade editorial (numero grande + nome + posicao, alturas
+variadas via `src/components/roster/RosterCard.tsx`); clicar leva a
+`/elenco/[slug]`, com bio, estatisticas por posicao e galeria de midia.
+
+Esses dados vivem nos schemas `jogo` (campos `escalacaoLeoas`, `eventos`,
+`statsComparativas`, `fotos`) e `atleta` (`statsPosicao`, `midia`) — ver
+`src/sanity/schemas/`.
 
 ## CMS: Sanity
 

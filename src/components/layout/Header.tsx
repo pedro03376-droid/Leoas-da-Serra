@@ -8,6 +8,8 @@ import { useCart } from "@/components/store/CartContext";
 import { ESCUDO_SRC } from "@/lib/brand";
 
 const MENU_LINKS = [
+  { href: "/elenco", label: "Elenco" },
+  { href: "/agenda", label: "Agenda" },
   { href: "/temporada", label: "Temporada" },
   { href: "/historia", label: "Historia" },
   { href: "/palmares", label: "Palmares" },

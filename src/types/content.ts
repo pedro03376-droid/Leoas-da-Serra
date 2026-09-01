@@ -10,18 +10,57 @@ export interface SanityImageRef {
   height: number;
 }
 
+export type Posicao = "Goleira" | "Fixo" | "Ala" | "Pivo";
+
+export interface StatAtleta {
+  label: string;
+  valor: string;
+}
+
 export interface Atleta {
   _id: string;
+  slug: string;
   nome: string;
   numero: number;
-  posicao: "Goleira" | "Fixo" | "Ala" | "Pivo";
+  posicao: Posicao;
   altura?: string;
   foto: SanityImageRef;
   bio?: string;
+  /** Estatisticas especificas da posicao (ex.: defesas para goleira, gols para pivo). */
+  statsPosicao?: StatAtleta[];
+  /** Galeria de fotos do perfil, alem da foto principal. */
+  midia?: SanityImageRef[];
+}
+
+/** Jogadora escalada num jogo — copia leve dos dados de Atleta no momento da partida. */
+export interface EscalacaoAtleta {
+  atletaId: string;
+  slug: string;
+  numero: number;
+  nome: string;
+  posicao: Posicao;
+  foto?: SanityImageRef;
+  titular: boolean;
+}
+
+export type TipoEvento = "gol" | "cartao_amarelo" | "cartao_vermelho" | "substituicao" | "timeout";
+
+export interface EventoJogo {
+  minuto: number;
+  tipo: TipoEvento;
+  time: "leoas" | "adversario";
+  descricao: string;
+}
+
+export interface StatComparativa {
+  label: string;
+  leoas: number;
+  adversario: number;
 }
 
 export interface Jogo {
   _id: string;
+  slug: string;
   competicao: string;
   adversario: string;
   escudoAdversario: SanityImageRef;
@@ -33,6 +72,11 @@ export interface Jogo {
   transmissaoUrl?: string;
   ingressoUrl?: string;
   status: "agendado" | "ao_vivo" | "encerrado";
+  /** Match Center: presentes so em jogos com cobertura completa (Fase 2). */
+  escalacaoLeoas?: EscalacaoAtleta[];
+  eventos?: EventoJogo[];
+  statsComparativas?: StatComparativa[];
+  fotos?: SanityImageRef[];
   /** PLACEHOLDER: dados provisorios ate virem do CMS. */
   placeholder?: boolean;
 }

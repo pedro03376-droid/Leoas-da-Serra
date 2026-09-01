@@ -2,7 +2,10 @@ import "server-only";
 import { sanityFetch } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/env";
 import {
+  atletaPorSlugQuery,
   elencoQuery,
+  jogoPorSlugQuery,
+  jogosQuery,
   noticiasQuery,
   parceirosQuery,
   produtoPorSlugQuery,
@@ -14,6 +17,7 @@ import {
 import type { Atleta, Jogo, Noticia, Parceiro, ProdutoDestaque, Temporada, Titulo } from "@/types/content";
 import {
   ELENCO_PLACEHOLDER,
+  JOGOS_PLACEHOLDER,
   NOTICIAS_PLACEHOLDER,
   PRODUTOS_PLACEHOLDER,
   PROXIMO_JOGO_PLACEHOLDER,
@@ -31,6 +35,19 @@ export async function getProximoJogo(): Promise<Jogo> {
   if (!isSanityConfigured) return PROXIMO_JOGO_PLACEHOLDER;
   const jogo = await sanityFetch<Jogo | null>(proximoJogoQuery);
   return jogo ?? PROXIMO_JOGO_PLACEHOLDER;
+}
+
+export async function getJogos(): Promise<Jogo[]> {
+  if (!isSanityConfigured) return JOGOS_PLACEHOLDER;
+  const jogos = await sanityFetch<Jogo[]>(jogosQuery);
+  return jogos.length > 0 ? jogos : JOGOS_PLACEHOLDER;
+}
+
+export async function getJogoPorSlug(slug: string): Promise<Jogo | null> {
+  if (!isSanityConfigured) {
+    return JOGOS_PLACEHOLDER.find((jogo) => jogo.slug === slug) ?? null;
+  }
+  return sanityFetch<Jogo | null>(jogoPorSlugQuery, { slug });
 }
 
 export async function getNoticias(): Promise<Noticia[]> {
@@ -53,7 +70,15 @@ export async function getTemporadaAtual(): Promise<Temporada> {
 
 export async function getElenco(): Promise<Atleta[]> {
   if (!isSanityConfigured) return ELENCO_PLACEHOLDER;
-  return sanityFetch<Atleta[]>(elencoQuery);
+  const elenco = await sanityFetch<Atleta[]>(elencoQuery);
+  return elenco.length > 0 ? elenco : ELENCO_PLACEHOLDER;
+}
+
+export async function getAtletaPorSlug(slug: string): Promise<Atleta | null> {
+  if (!isSanityConfigured) {
+    return ELENCO_PLACEHOLDER.find((atleta) => atleta.slug === slug) ?? null;
+  }
+  return sanityFetch<Atleta | null>(atletaPorSlugQuery, { slug });
 }
 
 export async function getParceiros(): Promise<Parceiro[]> {

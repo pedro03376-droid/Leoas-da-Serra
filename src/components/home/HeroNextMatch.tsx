@@ -61,7 +61,7 @@ export function HeroNextMatch({ jogo }: { jogo: Jogo }) {
         {jogo.status === "ao_vivo" ? "Ao vivo agora" : "Proximo jogo"} · {jogo.competicao}
       </p>
 
-      <div className="mt-6 flex items-center justify-center gap-6 sm:gap-12">
+      <Link href={`/jogos/${jogo.slug}`} className="mt-6 flex items-center justify-center gap-6 sm:gap-12">
         <div className="flex flex-col items-center gap-3">
           <div className="relative h-16 w-16 sm:h-24 sm:w-24">
             <Image src={ESCUDO_SRC} alt="" fill sizes="96px" style={{ objectFit: "contain" }} />
@@ -73,11 +73,11 @@ export function HeroNextMatch({ jogo }: { jogo: Jogo }) {
 
         <div className="flex flex-col items-center gap-3">
           <div className="relative h-16 w-16 sm:h-24 sm:w-24">
-            <Image src={jogo.escudoAdversario.url} alt="" fill sizes="96px" />
+            <Image src={jogo.escudoAdversario.url} alt="" fill sizes="96px" style={{ objectFit: "contain" }} />
           </div>
           <span className="font-display text-sm text-white sm:text-lg">{jogo.adversario}</span>
         </div>
-      </div>
+      </Link>
 
       <p className="font-mono-label mt-6 text-center text-xs text-gray sm:text-sm">
         {dataFormatada} · {horaFormatada} · {jogo.local}
@@ -103,11 +103,11 @@ export function HeroNextMatch({ jogo }: { jogo: Jogo }) {
         </div>
       )}
 
-      <div className="mx-auto mt-10 flex gap-4">
+      <div className="mx-auto mt-10 flex flex-wrap justify-center gap-4">
         {jogo.ingressoUrl && (
           <Link
             href={jogo.ingressoUrl}
-            className="font-mono-label rounded-full bg-red px-6 py-3 text-xs text-white transition-colors hover:bg-red-dark"
+            className="rounded-full bg-red px-6 py-3 text-sm text-white transition-colors hover:bg-red-dark"
           >
             Ingressos
           </Link>
@@ -115,13 +115,19 @@ export function HeroNextMatch({ jogo }: { jogo: Jogo }) {
         {jogo.transmissaoUrl && (
           <Link
             href={jogo.transmissaoUrl}
-            className="font-mono-label rounded-full border border-line px-6 py-3 text-xs text-white transition-colors hover:border-red"
+            className="rounded-full border border-line px-6 py-3 text-sm text-white transition-colors hover:border-red"
           >
             Transmissao
           </Link>
         )}
+        <Link
+          href={`/jogos/${jogo.slug}`}
+          className="rounded-full border border-line px-6 py-3 text-sm text-white transition-colors hover:border-red"
+        >
+          Match Center
+        </Link>
         {!jogo.ingressoUrl && !jogo.transmissaoUrl && (
-          <span className="font-mono-label text-xs text-gray">TODO: ingressos e transmissao (CMS)</span>
+          <span className="font-mono-label self-center text-xs text-gray">TODO: ingressos e transmissao (CMS)</span>
         )}
       </div>
     </section>

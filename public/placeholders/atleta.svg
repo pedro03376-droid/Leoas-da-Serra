@@ -1,0 +1,7 @@
+<!-- TODO: substituir pela foto real da atleta, vinda do CMS -->
+<svg width="480" height="600" viewBox="0 0 480 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Foto da atleta (placeholder)">
+  <rect width="480" height="600" fill="#1A1A1A"/>
+  <circle cx="240" cy="220" r="90" fill="#2A2A2A"/>
+  <path d="M90 600 C90 460 150 380 240 380 C330 380 390 460 390 600 Z" fill="#2A2A2A"/>
+  <rect x="220" y="140" width="40" height="10" fill="#E10600" opacity="0.6"/>
+</svg>
