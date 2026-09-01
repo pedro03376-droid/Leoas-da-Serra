@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { archivo, inter, jetbrainsMono } from "@/lib/fonts";
 import { SmoothScrollProvider, CustomCursor } from "@/components/motion";
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </IntroGate>
           </CartProvider>
         </SmoothScrollProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
