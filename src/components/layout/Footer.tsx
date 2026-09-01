@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { COMPETICOES } from "@/lib/placeholders";
+import { ESCUDO_SRC } from "@/lib/brand";
 
 export function Footer() {
   return (
     <footer className="border-t border-line bg-ink px-5 py-14 sm:px-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-10 sm:flex-row sm:justify-between">
         <div className="flex items-start gap-3">
-          <Image src="/placeholders/escudo-leoas.svg" alt="" width={40} height={44} />
+          <Image src={ESCUDO_SRC} alt="" width={36} height={54} className="h-12 w-auto" />
           <div>
             <p className="font-display text-xl text-white">Leoas da Serra</p>
             <p className="mt-1 text-sm text-gray">Futsal feminino · Lages, Santa Catarina</p>

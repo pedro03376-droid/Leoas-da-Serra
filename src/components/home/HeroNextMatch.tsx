@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Jogo } from "@/types/content";
+import { ESCUDO_SRC } from "@/lib/brand";
 
 /**
  * O countdown depende de Date.now() no exato instante da renderizacao, que
@@ -63,7 +64,7 @@ export function HeroNextMatch({ jogo }: { jogo: Jogo }) {
       <div className="mt-6 flex items-center justify-center gap-6 sm:gap-12">
         <div className="flex flex-col items-center gap-3">
           <div className="relative h-16 w-16 sm:h-24 sm:w-24">
-            <Image src="/placeholders/escudo-leoas.svg" alt="" fill sizes="96px" />
+            <Image src={ESCUDO_SRC} alt="" fill sizes="96px" style={{ objectFit: "contain" }} />
           </div>
           <span className="font-display text-sm text-white sm:text-lg">Leoas</span>
         </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { HoverLink } from "@/components/motion";
 import { useCart } from "@/components/store/CartContext";
+import { ESCUDO_SRC } from "@/lib/brand";
 
 const MENU_LINKS = [
   { href: "/temporada", label: "Temporada" },
@@ -41,7 +42,7 @@ export function Header() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-8">
         <Link href="/" className="flex items-center gap-3" aria-label="Leoas da Serra, pagina inicial">
-          <Image src="/placeholders/escudo-leoas.svg" alt="" width={36} height={40} />
+          <Image src={ESCUDO_SRC} alt="" width={32} height={48} className="h-10 w-auto sm:h-12" />
           <span className="font-display text-lg text-white">Leoas da Serra</span>
         </Link>
 

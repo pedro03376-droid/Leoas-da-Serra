@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Image from "next/image";
 import { EASE_CINEMATIC_GSAP } from "@/lib/motion";
+import { ESCUDO_SRC } from "@/lib/brand";
 
 interface IntroProps {
   onComplete: () => void;
@@ -153,8 +154,8 @@ export function Intro({ onComplete }: IntroProps) {
           Santa Catarina
         </span>
 
-        <div ref={shieldRef} className="relative mt-10 h-28 w-28 opacity-0 sm:h-36 sm:w-36">
-          <Image src="/placeholders/escudo-leoas.svg" alt="" fill priority sizes="144px" />
+        <div ref={shieldRef} className="relative mt-10 h-28 w-20 opacity-0 sm:h-36 sm:w-24">
+          <Image src={ESCUDO_SRC} alt="" fill priority sizes="144px" style={{ objectFit: "contain" }} />
         </div>
 
         <h1 className="font-display mt-8 text-5xl text-white sm:text-6xl">

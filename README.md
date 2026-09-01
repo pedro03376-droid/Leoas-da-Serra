@@ -75,9 +75,8 @@ quando `prefers-reduced-motion: reduce` esta ativo — a intro incluida.
 `src/components/intro/`. Roda so na primeira visita da sessao (flag em
 `sessionStorage`, `src/components/intro/useIntroSeen.ts`), nunca com
 `prefers-reduced-motion`, e sempre tem um botao "Pular" visivel. Sem video —
-so tipografia, o escudo (placeholder ate o vetor oficial chegar), formas
-geometricas, linhas e mascaras, exatamente como especificado no documento de
-instrucao original.
+so tipografia, o escudo oficial, formas geometricas, linhas e mascaras,
+exatamente como especificado no documento de instrucao original.
 
 ## CMS: Sanity
 
@@ -139,8 +138,8 @@ existirem — nenhuma delas e obrigatoria para rodar o site com os placeholders.
 
 ## Assets pendentes
 
-Tudo marcado com `TODO` no codigo depende de um asset real: o vetor oficial
-do escudo (`public/placeholders/escudo-leoas.svg`), fotos de jogadoras e
-produtos, e os dados reais de proximo jogo / temporada / noticias que virao
-do Sanity. Titulos e competicoes em `src/lib/placeholders.ts` (`TITULOS_REAIS`,
-`COMPETICOES`) ja sao reais.
+O escudo oficial ja esta em uso (`public/brand/escudo-leoas.png`, referenciado
+via `src/lib/brand.ts`). O que ainda falta, marcado com `TODO` no codigo:
+fotos de jogadoras e produtos, e os dados reais de proximo jogo / temporada /
+noticias que virao do Sanity. Titulos e competicoes em
+`src/lib/placeholders.ts` (`TITULOS_REAIS`, `COMPETICOES`) ja sao reais.
