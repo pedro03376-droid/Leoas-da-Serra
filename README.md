@@ -52,6 +52,7 @@ src/
     motion/                # Motion system: os 9 padroes reutilizaveis
     layout/                # Header, Footer, MobileActionBar
     home/                  # Secoes da Home
+      hero/                  # Hero: composicao editorial do proximo jogo (ver "Hero" abaixo)
     store/                 # Loja: cart, product card, collection, etc.
     match/                 # Match Center: header, stats, timeline, escalacao, fotos
     roster/                 # Elenco: card editorial, perfil da atleta
@@ -65,6 +66,20 @@ src/
     schemas/                # modelo de conteudo (ver "CMS" abaixo)
   types/content.ts          # tipos que espelham os schemas do Sanity
 ```
+
+## Hero da Home
+
+`src/components/home/hero/`. Composicao editorial do proximo jogo (sem
+video): `HeroBackground` (grafite, grao, luz radial, linhas quase
+invisiveis), `HeroEditorialTag` ("Next Match" vertical, so desktop —
+propria coluna na grade, ver `.hero-grid` em `globals.css`), `HeroPhoto`
+(painel de campanha com parallax sutil e leve efeito magnetico no hover —
+ainda sem foto oficial da atleta, `public/placeholders/hero-campanha.svg`
+marca o lugar ate a foto real entrar) e `HeroActions` (dois CTAs
+minimalistas: Match Center e Agenda). `Hero.tsx` orquestra tudo numa unica
+timeline GSAP coordenada na entrada e um recuo sutil no scroll — nunca
+efeitos isolados. Todo o conteudo (competicao, adversario, data, local,
+escudos) vem do mesmo `jogo` que a Home ja buscava; nada foi inventado.
 
 ## Motion system
 
@@ -163,6 +178,8 @@ existirem — nenhuma delas e obrigatoria para rodar o site com os placeholders.
 
 O escudo oficial ja esta em uso (`public/brand/escudo-leoas.png`, referenciado
 via `src/lib/brand.ts`). O que ainda falta, marcado com `TODO` no codigo:
-fotos de jogadoras e produtos, e os dados reais de proximo jogo / temporada /
-noticias que virao do Sanity. Titulos e competicoes em
+a fotografia oficial da campanha no Hero (troque `HERO_CAMPANHA_SRC` em
+`src/components/home/hero/HeroPhoto.tsx` — 4:5, editorial, atleta em
+quadra), fotos de jogadoras e produtos, e os dados reais de proximo jogo /
+temporada / noticias que virao do Sanity. Titulos e competicoes em
 `src/lib/placeholders.ts` (`TITULOS_REAIS`, `COMPETICOES`) ja sao reais.

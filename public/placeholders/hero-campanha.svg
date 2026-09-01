@@ -1,0 +1,32 @@
+<!-- TODO: substituir pela fotografia oficial da campanha (atleta em quadra, 4:5, editorial) -->
+<svg width="900" height="1125" viewBox="0 0 900 1125" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#161616"/>
+      <stop offset="55%" stop-color="#0c0c0c"/>
+      <stop offset="100%" stop-color="#050505"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="1" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#E10600" stop-opacity="0.28"/>
+      <stop offset="35%" stop-color="#E10600" stop-opacity="0.05"/>
+      <stop offset="60%" stop-color="#E10600" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="key" cx="78%" cy="18%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="45%" r="75%">
+      <stop offset="60%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="1125" fill="url(#base)"/>
+  <rect width="900" height="1125" fill="url(#key)"/>
+  <polygon points="900,0 620,0 900,520" fill="url(#rim)"/>
+
+  <!-- marca geometrica sutil, ecoando o escudo -->
+  <path d="M40 1085 L40 905 L120 845 L200 905 L200 1085 Z" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="2"/>
+
+  <rect width="900" height="1125" fill="url(#vignette)"/>
+</svg>

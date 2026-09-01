@@ -87,6 +87,50 @@ body {
   transform: scale(1.05);
 }
 
+/*
+ * Hero da Home: no mobile e uma coluna unica (a ordem no DOM ja e a ordem
+ * visual certa — info, foto, CTAs). Em telas grandes vira uma grade de
+ * 2 colunas onde a foto ocupa a coluna direita inteira, ao lado de
+ * info+CTAs empilhados na esquerda — impossivel de expressar so com a
+ * escala de espacamento padrao do Tailwind, entao fica aqui.
+ */
+.hero-grid {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .hero-grid {
+    display: grid;
+    height: 100%;
+    grid-template-columns: auto 1.15fr 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas: "tag info photo" "tag cta photo";
+    column-gap: 2rem;
+  }
+
+  /*
+   * Coluna propria pro elemento editorial vertical, do tamanho do proprio
+   * conteudo — assim ele nunca corre o risco de ficar por cima do texto da
+   * coluna "info" (o que acontecia com posicionamento absoluto + offset
+   * fixo em px, que so funcionava coincidentemente em algumas larguras).
+   */
+  .hero-tag {
+    grid-area: tag;
+  }
+
+  .hero-info {
+    grid-area: info;
+  }
+
+  .hero-cta-slot {
+    grid-area: cta;
+  }
+
+  .hero-photo-slot {
+    grid-area: photo;
+  }
+}
+
 /* Lenis smooth scroll: altura natural, o Lenis controla o transform do wrapper */
 html.lenis,
 html.lenis body {

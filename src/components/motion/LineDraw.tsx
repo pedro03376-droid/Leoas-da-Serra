@@ -22,7 +22,10 @@ export function LineDraw({ className, orientation = "horizontal", trigger = "vie
 
   useEffect(() => {
     const el = pathRef.current;
-    if (!el) return;
+    // getTotalLength() lanca excecao em elementos nao renderizados (ex.:
+    // dentro de um ancestral com display:none, como esta linha em telas
+    // menores que lg) — pula a animacao nesse caso, ela so e decorativa.
+    if (!el || el.getClientRects().length === 0) return;
 
     const length = el.getTotalLength();
     gsap.set(el, { strokeDasharray: length, strokeDashoffset: reducedMotion ? 0 : length });
