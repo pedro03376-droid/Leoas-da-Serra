@@ -201,6 +201,27 @@ const TAMANHOS_CAMISA_OFICIAL = ["P", "M", "G", "GG", "XG", "BLG", "BLGG", "BLXG
   disponivel: true,
 }));
 
+// Tamanhos reais do Uniforme 2 (planilha de pedidos do clube, pedidos +
+// extras): unissex, "baby look" (prefixo BL) e infantil.
+// TODO: variantesId de cada tamanho ainda depende da Nuvemshop conectada.
+const TAMANHOS_UNIFORME_2 = [
+  "P",
+  "M",
+  "G",
+  "GG",
+  "XG",
+  "XGG",
+  "BLM",
+  "BLG",
+  "BLP",
+  "Infantil 10",
+  "Infantil 14",
+].map((tamanho) => ({
+  tamanho,
+  variantesId: `TODO-nuvemshop-variant-uniforme-2-${tamanho}`,
+  disponivel: true,
+}));
+
 // TODO: substituir pelos produtos reais da Nuvemshop/Sanity (schema
 // `produtoDestaque`) — nome, preco, descricao, tamanhos e as 4-5 fotos de
 // cada camisa (imagensGaleria) assim que estiverem prontos.
@@ -209,13 +230,13 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     _id: "camisa-oficial-leoas-2026",
     nome: "Camisa Oficial Leoas da Serra",
     slug: "camisa-oficial",
-    precoCentavos: 9990,
+    precoCentavos: 9900,
     categoria: "camisa",
     imagem: {
       url: "/products/camisa-oficial/01-frente.png",
       alt: "Camisa oficial Leoas da Serra, vista de frente",
       width: 1200,
-      height: 1815,
+      height: 1500,
     },
     imagensGaleria: [
       {
@@ -241,6 +262,44 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     descricao: "Camisa oficial das Leoas da Serra, usada em quadra pelo elenco na temporada 2026.",
     variantesId: "TODO-nuvemshop-product-id",
     tamanhos: TAMANHOS_CAMISA_OFICIAL,
+    emCampanha: true,
+  },
+  {
+    _id: "uniforme-2-leoas-2026",
+    nome: "Uniforme 2 Leoas da Serra",
+    slug: "uniforme-2",
+    precoCentavos: 9900,
+    categoria: "camisa",
+    imagem: {
+      url: "/products/uniforme-2/01-frente.png",
+      alt: "Uniforme 2 (branco e vermelho) das Leoas da Serra, vista de frente",
+      width: 1200,
+      height: 1500,
+    },
+    imagensGaleria: [
+      {
+        url: "/products/uniforme-2/02-acao1.jpg",
+        alt: "Atleta das Leoas da Serra usando o Uniforme 2 durante jogo",
+        width: 1200,
+        height: 1500,
+      },
+      {
+        url: "/products/uniforme-2/03-acao2.jpg",
+        alt: "Atleta das Leoas da Serra usando o Uniforme 2 em quadra",
+        width: 1200,
+        height: 1500,
+      },
+      {
+        url: "/products/uniforme-2/04-costas.jpg",
+        alt: "Uniforme 2 Leoas da Serra, vista de costas, com numero e nome",
+        width: 1200,
+        height: 1500,
+      },
+    ],
+    // TODO: descricao real do produto (tecido, patrocinadores, uniforme de jogo x replica etc.)
+    descricao: "Segundo uniforme das Leoas da Serra, usado em quadra pelo elenco na temporada 2026.",
+    variantesId: "TODO-nuvemshop-product-id-uniforme-2",
+    tamanhos: TAMANHOS_UNIFORME_2,
     emCampanha: true,
   },
   {
