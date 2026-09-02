@@ -47,7 +47,8 @@ export async function getJogoPorSlug(slug: string): Promise<Jogo | null> {
   if (!isSanityConfigured) {
     return JOGOS_PLACEHOLDER.find((jogo) => jogo.slug === slug) ?? null;
   }
-  return sanityFetch<Jogo | null>(jogoPorSlugQuery, { slug });
+  const jogo = await sanityFetch<Jogo | null>(jogoPorSlugQuery, { slug });
+  return jogo ?? JOGOS_PLACEHOLDER.find((j) => j.slug === slug) ?? null;
 }
 
 export async function getNoticias(): Promise<Noticia[]> {
@@ -78,7 +79,8 @@ export async function getAtletaPorSlug(slug: string): Promise<Atleta | null> {
   if (!isSanityConfigured) {
     return ELENCO_PLACEHOLDER.find((atleta) => atleta.slug === slug) ?? null;
   }
-  return sanityFetch<Atleta | null>(atletaPorSlugQuery, { slug });
+  const atleta = await sanityFetch<Atleta | null>(atletaPorSlugQuery, { slug });
+  return atleta ?? ELENCO_PLACEHOLDER.find((a) => a.slug === slug) ?? null;
 }
 
 export async function getParceiros(): Promise<Parceiro[]> {
@@ -96,5 +98,6 @@ export async function getProdutoPorSlug(slug: string): Promise<ProdutoDestaque |
   if (!isSanityConfigured) {
     return PRODUTOS_PLACEHOLDER.find((produto) => produto.slug === slug) ?? null;
   }
-  return sanityFetch<ProdutoDestaque | null>(produtoPorSlugQuery, { slug });
+  const produto = await sanityFetch<ProdutoDestaque | null>(produtoPorSlugQuery, { slug });
+  return produto ?? PRODUTOS_PLACEHOLDER.find((p) => p.slug === slug) ?? null;
 }
