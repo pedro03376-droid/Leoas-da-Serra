@@ -59,19 +59,47 @@ const ELENCO_SEED: ElencoSeed[] = [
   { numero: 13, posicao: "Fixo", altura: "1,66", stats: [["Desarmes", "-"], ["Passes certos", "-"]] },
 ];
 
-// TODO: substituir pelo elenco real vindo do Sanity (schema `atleta`).
-export const ELENCO_PLACEHOLDER: Atleta[] = ELENCO_SEED.map((seed) => ({
-  _id: `placeholder-atleta-${seed.numero}`,
-  slug: `atleta-${seed.numero}`,
-  nome: `Atleta ${String(seed.numero).padStart(2, "0")}`,
-  numero: seed.numero,
-  posicao: seed.posicao,
-  altura: seed.altura,
-  foto: FOTO_ATLETA_PLACEHOLDER,
+// Atleta real (nome, numero e posicao confirmados) — foto real ja usada na
+// galeria do Uniforme 2. TODO: bio e stats reais quando disponiveis.
+const LUIZA_BORTOLINI: Atleta = {
+  _id: "atleta-luiza-bortolini",
+  slug: "luiza-bortolini",
+  nome: "Luiza Bortolini",
+  numero: 98,
+  posicao: "Fixo",
+  foto: {
+    url: "/products/uniforme-2/03-acao2.jpg",
+    alt: "Luiza Bortolini, numero 98, fixo das Leoas da Serra",
+    width: 1200,
+    height: 1500,
+  },
   bio: "TODO: biografia da atleta vinda do CMS.",
-  statsPosicao: seed.stats.map(([label, valor]) => ({ label, valor })),
-  midia: [FOTO_ATLETA_PLACEHOLDER],
-}));
+  midia: [
+    {
+      url: "/products/uniforme-2/03-acao2.jpg",
+      alt: "Luiza Bortolini, numero 98, fixo das Leoas da Serra",
+      width: 1200,
+      height: 1500,
+    },
+  ],
+};
+
+// TODO: substituir pelo elenco real vindo do Sanity (schema `atleta`).
+export const ELENCO_PLACEHOLDER: Atleta[] = [
+  LUIZA_BORTOLINI,
+  ...ELENCO_SEED.map((seed) => ({
+    _id: `placeholder-atleta-${seed.numero}`,
+    slug: `atleta-${seed.numero}`,
+    nome: `Atleta ${String(seed.numero).padStart(2, "0")}`,
+    numero: seed.numero,
+    posicao: seed.posicao,
+    altura: seed.altura,
+    foto: FOTO_ATLETA_PLACEHOLDER,
+    bio: "TODO: biografia da atleta vinda do CMS.",
+    statsPosicao: seed.stats.map(([label, valor]) => ({ label, valor })),
+    midia: [FOTO_ATLETA_PLACEHOLDER],
+  })),
+];
 
 function escalacaoDe(numeros: number[]): EscalacaoAtleta[] {
   return ELENCO_PLACEHOLDER.filter((atleta) => numeros.includes(atleta.numero)).map((atleta) => ({
