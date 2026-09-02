@@ -122,17 +122,31 @@ O site **nao guarda conteudo no codigo** — so le do CMS. `src/sanity/schemas/`
 define o modelo (`atleta`, `jogo`, `noticia`, `titulo`, `temporada`,
 `parceiro`, `produtoDestaque`) usando um shim leve local de
 `defineField`/`defineType` (`src/sanity/schemas/defineHelpers.ts`) — **este
-app Next.js nao roda o Sanity Studio**, so consome dados via API. Para
-provisionar o CMS de verdade:
+app Next.js nao roda o Sanity Studio**, so consome dados via API.
 
-1. `npx sanity init` num diretorio separado (ou noutro repo) para criar o
-   projeto/Studio.
-2. Copiar o conteudo de `src/sanity/schemas/*.ts` para o `schema.types` do
-   Studio (trocando o import de `./defineHelpers` pelo pacote `sanity` real).
-3. Publicar o Studio e preencher o conteudo.
-4. Configurar as variaveis de ambiente abaixo neste projeto — a partir daí o
-   site passa a ler do Sanity automaticamente (`src/lib/content.ts` cai para
-   os placeholders sempre que `SANITY_PROJECT_ID` nao estiver definido).
+O Studio de verdade (painel de edicao) ja esta em `studio/` — um projeto
+separado que importa os mesmos schemas de `src/sanity/schemas/` (fonte
+unica, nada duplicado) e ja aponta para o projeto Sanity real (`projectId`
+e `dataset` em `studio/sanity.config.ts` / `studio/sanity.cli.ts`).
+
+**Publicar o Studio** (o login e o deploy precisam rodar na sua maquina —
+exigem abrir o navegador e nao funcionam num agente remoto):
+
+```bash
+cd studio
+npm install
+npx sanity login     # abre o navegador, autorize com a conta do projeto
+npx sanity deploy    # publica num link fixo, ex.: leoas-da-serra.sanity.studio
+```
+
+**No dia a dia**, depois de publicado, o Studio fica disponivel nesse link —
+so abrir e cadastrar (jogos, atletas, produtos, noticias etc.), sem precisar
+rodar nada localmente de novo.
+
+**Ligar o site ao Sanity**: configurar as variaveis de ambiente abaixo neste
+projeto (`SANITY_PROJECT_ID` e `SANITY_DATASET`) na Vercel — a partir daí o
+site passa a ler do Sanity automaticamente (`src/lib/content.ts` cai para
+os placeholders sempre que `SANITY_PROJECT_ID` nao estiver definido).
 
 As buscas (GROQ, `src/sanity/queries.ts`) e o client (`src/sanity/client.ts`)
 rodam **so no servidor** (`import "server-only"`) — nenhuma chave chega ao
@@ -175,8 +189,8 @@ existirem — nenhuma delas e obrigatoria para rodar o site com os placeholders.
 
 | Variavel | Onde e usada | Observacao |
 |---|---|---|
-| `SANITY_PROJECT_ID` | servidor | sem isso, o site usa os placeholders |
-| `SANITY_DATASET` | servidor | padrao `production` |
+| `SANITY_PROJECT_ID` | servidor | sem isso, o site usa os placeholders. Projeto atual: `pvg8mwks` |
+| `SANITY_DATASET` | servidor | `production` |
 | `SANITY_READ_TOKEN` | servidor | so se o dataset nao for publico |
 | `NEXT_PUBLIC_NUVEMSHOP_STORE_URL` | client (checkout) | dominio da loja Nuvemshop |
 
