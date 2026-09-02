@@ -1,7 +1,13 @@
-import { defineConfig } from "sanity";
+import { defineConfig, type SchemaTypeDefinition } from "sanity";
 import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "../src/sanity/schemas";
+
+// Os schemas usam um shim leve de defineField/defineType (ver
+// src/sanity/schemas/defineHelpers.ts) pra nao depender do pacote `sanity`
+// completo no app Next.js — sao objetos identicos em runtime, so o tipo
+// exato do helper diverge do tipo oficial do Sanity, daí o cast abaixo.
+const types = schemaTypes as unknown as SchemaTypeDefinition[];
 
 /**
  * Studio real do Sanity. Os schemas vêm direto de `src/sanity/schemas/`
@@ -18,6 +24,6 @@ export default defineConfig({
   plugins: [structureTool(), visionTool()],
 
   schema: {
-    types: schemaTypes,
+    types,
   },
 });

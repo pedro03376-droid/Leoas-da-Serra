@@ -12,5 +12,5 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["./sanity.config.ts", "./sanity.cli.ts", "../src/sanity/schemas/**/*.ts"]
+  "include": ["./sanity.config.ts", "./sanity.cli.ts", "./scripts/**/*.ts", "../src/sanity/schemas/**/*.ts"]
 }

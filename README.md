@@ -146,7 +146,20 @@ rodar nada localmente de novo.
 **Ligar o site ao Sanity**: configurar as variaveis de ambiente abaixo neste
 projeto (`SANITY_PROJECT_ID` e `SANITY_DATASET`) na Vercel — a partir daí o
 site passa a ler do Sanity automaticamente (`src/lib/content.ts` cai para
-os placeholders sempre que `SANITY_PROJECT_ID` nao estiver definido).
+os placeholders sempre que `SANITY_PROJECT_ID` nao estiver definido, ou
+sempre que uma busca no Sanity nao encontrar nada — mesmo configurado, nada
+some do site so porque o Sanity ainda esta vazio).
+
+**Importar o conteudo real que ja existia no codigo** (antes do Sanity
+existir): `studio/scripts/import-real-data.ts` sobe pro Sanity os titulos,
+o proximo jogo e os 2 produtos reais da loja (com as fotos), lendo direto
+de `src/lib/placeholders.ts`. Roda uma vez (idempotente, pode rodar de novo
+sem duplicar):
+
+```bash
+cd studio
+npx sanity exec scripts/import-real-data.ts --with-user-token
+```
 
 As buscas (GROQ, `src/sanity/queries.ts`) e o client (`src/sanity/client.ts`)
 rodam **so no servidor** (`import "server-only"`) — nenhuma chave chega ao
