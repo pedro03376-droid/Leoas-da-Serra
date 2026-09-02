@@ -250,6 +250,14 @@ const TAMANHOS_UNIFORME_2 = [
   disponivel: true,
 }));
 
+// Tamanhos reais do Uniforme 3 (planilha de pedidos do clube).
+// TODO: variantesId de cada tamanho ainda depende da Nuvemshop conectada.
+const TAMANHOS_UNIFORME_3 = ["M", "G", "GG", "XG", "XGG", "BLG"].map((tamanho) => ({
+  tamanho,
+  variantesId: `TODO-nuvemshop-variant-uniforme-3-${tamanho}`,
+  disponivel: true,
+}));
+
 // TODO: substituir pelos produtos reais da Nuvemshop/Sanity (schema
 // `produtoDestaque`) — nome, preco, descricao, tamanhos e as 4-5 fotos de
 // cada camisa (imagensGaleria) assim que estiverem prontos.
@@ -329,6 +337,19 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     variantesId: "TODO-nuvemshop-product-id-uniforme-2",
     tamanhos: TAMANHOS_UNIFORME_2,
     emCampanha: true,
+  },
+  {
+    // TODO: falta so trocar 'imagem'/'imagensGaleria' pelas fotos reais
+    // (amarelo/verde) assim que o envio delas funcionar de novo.
+    _id: "uniforme-3-leoas-2026",
+    nome: "Uniforme 3 Leoas da Serra",
+    slug: "uniforme-3",
+    precoCentavos: 9900,
+    categoria: "camisa",
+    imagem: { url: "/placeholders/camisa.svg", alt: "Uniforme 3 Leoas da Serra", width: 800, height: 1000 },
+    descricao: "Terceiro uniforme das Leoas da Serra, usado em quadra pelo elenco na temporada 2026.",
+    variantesId: "TODO-nuvemshop-product-id-uniforme-3",
+    tamanhos: TAMANHOS_UNIFORME_3,
   },
   {
     _id: "placeholder-camisa-treino",
