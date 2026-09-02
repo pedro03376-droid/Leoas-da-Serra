@@ -11,11 +11,10 @@ export function CampaignHero({ produto }: { produto: ProdutoDestaque }) {
         <ImageReveal
           src={produto.imagem.url}
           alt={produto.imagem.alt}
-          fill
           priority
           sizes="100vw"
           className="h-full w-full"
-          style={{ objectFit: "cover", objectPosition: objectPositionFrom(produto.imagem) }}
+          style={{ objectPosition: objectPositionFrom(produto.imagem) }}
         />
       </div>
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black via-black/40 to-transparent" />

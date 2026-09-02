@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Image, { type ImageProps } from "next/image";
+import { useEffect, useRef, type CSSProperties } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -9,11 +9,35 @@ import { EASE_CINEMATIC_GSAP } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
+interface ImageRevealProps {
+  src: string;
+  alt: string;
+  className?: string;
+  sizes?: string;
+  priority?: boolean;
+  style?: CSSProperties;
+  /** So para pedir uma resolucao adequada ao otimizador — o box real vem do wrapper (fill). */
+  width?: number;
+  height?: number;
+}
+
 /**
  * Fotos reveladas por clip-path (wipe da esquerda para a direita) —
- * nunca um fade simples.
+ * nunca um fade simples. Preenche sempre o wrapper (fill + cover), nunca
+ * um tamanho fixo — quem controla a proporcao e a classe do wrapper
+ * (aspect-[4/5] etc.), nao o width/height da imagem.
  */
-export function ImageReveal({ className, alt, ...imageProps }: ImageProps & { className?: string }) {
+export function ImageReveal({
+  className,
+  alt,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- so pra excluir do spread (fill nao aceita width/height)
+  width,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- so pra excluir do spread (fill nao aceita width/height)
+  height,
+  style,
+  sizes,
+  ...imageProps
+}: ImageRevealProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const reducedMotion = usePrefersReducedMotion();
 
@@ -47,7 +71,13 @@ export function ImageReveal({ className, alt, ...imageProps }: ImageProps & { cl
 
   return (
     <div ref={wrapperRef} className={`relative overflow-hidden ${className ?? ""}`}>
-      <Image alt={alt} {...imageProps} />
+      <Image
+        alt={alt}
+        fill
+        sizes={sizes ?? "(min-width: 1024px) 50vw, 100vw"}
+        style={{ objectFit: "cover", ...style }}
+        {...imageProps}
+      />
     </div>
   );
 }

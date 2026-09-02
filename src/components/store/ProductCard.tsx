@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ImageReveal } from "@/components/motion";
 import { useCart } from "./CartContext";
-import { formatarPreco } from "@/lib/format";
+import { formatarPreco, objectPositionFrom } from "@/lib/format";
 import type { ProdutoDestaque } from "@/types/content";
 
 export function ProductCard({ produto }: { produto: ProdutoDestaque }) {
@@ -19,6 +19,7 @@ export function ProductCard({ produto }: { produto: ProdutoDestaque }) {
           width={600}
           height={750}
           className="aspect-[4/5] w-full rounded-sm bg-card"
+          style={{ objectPosition: objectPositionFrom(produto.imagem) }}
         />
       </Link>
       <div className="mt-3 flex items-start justify-between gap-3">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ImageReveal } from "@/components/motion";
 import type { Atleta } from "@/types/content";
+import { objectPositionFrom } from "@/lib/format";
 
 const ASPECTOS = ["aspect-[3/4]", "aspect-[3/5]", "aspect-square", "aspect-[4/5]"];
 
@@ -14,7 +15,14 @@ export function RosterCard({ atleta, index }: { atleta: Atleta; index: number })
 
   return (
     <Link href={`/elenco/${atleta.slug}`} className="group hover-zoom relative block overflow-hidden rounded-sm bg-card">
-      <ImageReveal src={atleta.foto.url} alt={atleta.foto.alt} width={480} height={600} className={`w-full ${aspecto}`} />
+      <ImageReveal
+        src={atleta.foto.url}
+        alt={atleta.foto.alt}
+        width={480}
+        height={600}
+        className={`w-full ${aspecto}`}
+        style={{ objectPosition: objectPositionFrom(atleta.foto) }}
+      />
 
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
 
