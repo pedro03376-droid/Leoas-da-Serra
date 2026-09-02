@@ -154,12 +154,26 @@ some do site so porque o Sanity ainda esta vazio).
 existir): `studio/scripts/import-real-data.ts` sobe pro Sanity os titulos,
 o proximo jogo e os 2 produtos reais da loja (com as fotos), lendo direto
 de `src/lib/placeholders.ts`. Roda uma vez (idempotente, pode rodar de novo
-sem duplicar):
+sem duplicar). Precisa de um token de escrita: sanity.io/manage → projeto
+→ **API → Tokens → Add API token**, permissao **Editor**, copia o valor
+(so aparece uma vez).
 
+Opcao A — terminal local:
 ```bash
 cd studio
-npx sanity exec scripts/import-real-data.ts --with-user-token
+SANITY_API_TOKEN=cole-o-token-aqui npx sanity exec scripts/import-real-data.ts
 ```
+
+Opcao B — sem terminal, direto pela Vercel (reaproveitando o projeto do
+Studio ja publicado): Settings → Environment Variables → adiciona
+`SANITY_API_TOKEN` com o token → Settings → Build & Development Settings →
+liga o override de Build Command → `npm run import-real-data` → Save →
+Deployments → Redeploy → acompanha os logs do build (aparece uma linha por
+item importado). O deploy pode terminar como "erro" no final (o script nao
+gera um site, so escreve no Sanity) — isso e esperado, o importante e ver
+as linhas de sucesso no log. **Depois, desliga o override do Build Command**
+(volta pro padrao) e considera revogar esse token (sanity.io/manage → API
+→ Tokens) — nao precisa mais dele depois de rodar uma vez.
 
 As buscas (GROQ, `src/sanity/queries.ts`) e o client (`src/sanity/client.ts`)
 rodam **so no servidor** (`import "server-only"`) — nenhuma chave chega ao

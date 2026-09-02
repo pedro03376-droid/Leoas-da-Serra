@@ -7,18 +7,36 @@
  * outros 2 produtos ainda com TODO) — isso continua so no fallback ate
  * alguem cadastrar de verdade.
  *
+ * Precisa de um token com permissao de escrita (sanity.io/manage -> projeto
+ * -> API -> Tokens -> Add API token, permissao "Editor"), passado pela
+ * variavel de ambiente SANITY_API_TOKEN. Nao usa login interativo — roda
+ * igual no terminal local ou como Build Command de um deploy (Vercel etc.).
+ *
  * Roda com:
  *   cd studio
- *   npx sanity exec scripts/import-real-data.ts --with-user-token
+ *   SANITY_API_TOKEN=seu-token npx sanity exec scripts/import-real-data.ts
  *
  * Idempotente: usa sempre o mesmo _id de cada item, entao rodar de novo so
  * atualiza (createOrReplace), nunca duplica.
  */
 import { readFileSync } from "node:fs";
 import { basename, join } from "node:path";
-import { getCliClient } from "sanity/cli";
+import { createClient } from "@sanity/client";
 
-const client = getCliClient({ apiVersion: "2024-01-01" });
+const token = process.env.SANITY_API_TOKEN;
+if (!token) {
+  throw new Error(
+    "Faltou a variavel SANITY_API_TOKEN. Crie um token (Editor) em sanity.io/manage -> API -> Tokens e rode de novo com SANITY_API_TOKEN=xxx na frente do comando.",
+  );
+}
+
+const client = createClient({
+  projectId: "pvg8mwks",
+  dataset: "production",
+  apiVersion: "2024-01-01",
+  token,
+  useCdn: false,
+});
 
 const REPO_ROOT = join(__dirname, "..", "..");
 
