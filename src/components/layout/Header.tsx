@@ -3,32 +3,17 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { HoverLink } from "@/components/motion";
 import { useCart } from "@/components/store/CartContext";
 import { ESCUDO_SRC } from "@/lib/brand";
 
-const MENU_LINKS = [
-  { href: "/elenco", label: "Elenco" },
-  { href: "/agenda", label: "Agenda" },
-  { href: "/temporada", label: "Temporada" },
-  { href: "/historia", label: "Historia" },
-  { href: "/palmares", label: "Palmares" },
-  { href: "/leoas-play", label: "Leoas Play" },
-  { href: "/escola-de-leoas", label: "Escola de Leoas" },
-  { href: "/parceiros", label: "Parceiros" },
-];
-
 /**
- * Header fixo com blur no scroll. Topo enxuto: so os CTAs que geram receita
- * (ingressos, loja) ficam sempre visiveis no desktop — o resto vive no menu
- * (inspiracao Real Madrid: rigor institucional, hierarquia limpa). No
- * mobile, ingressos/loja ja vivem na barra flutuante (MobileActionBar), entao
- * o header so precisa de sacola + menu — evita empilhar botoes e a marca
- * quebrando linha no mesmo espaco estreito.
+ * Header fixo com blur no scroll. So Home e Loja por enquanto — elenco,
+ * agenda, temporada, historia, palmares etc. ficam fora da navegacao ate
+ * ter conteudo real cadastrado. Traga de volta (nav + menu completo)
+ * conforme cada secao for ficando pronta.
  */
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const { lines, openCart } = useCart();
   const itemCount = lines.reduce((total, line) => total + line.quantidade, 0);
 
@@ -51,18 +36,10 @@ export function Header() {
           <span className="font-display truncate text-base leading-none text-white sm:text-lg">Leoas da Serra</span>
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Navegacao principal">
-          {MENU_LINKS.slice(0, 3).map((link) => (
-            <HoverLink key={link.href} href={link.href} className="text-sm text-white/80">
-              {link.label}
-            </HoverLink>
-          ))}
-        </nav>
-
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <Link
             href="/loja"
-            className="hidden rounded-full border border-line px-4 py-2 text-sm text-white transition-colors hover:border-red sm:inline-block"
+            className="rounded-full border border-line px-4 py-2 text-sm text-white transition-colors hover:border-red"
           >
             Loja
           </Link>
@@ -84,63 +61,8 @@ export function Header() {
               </span>
             )}
           </button>
-
-          <Link
-            href="/ingressos"
-            className="hidden rounded-full bg-red px-4 py-2 text-sm text-white transition-colors hover:bg-red-dark sm:inline-block"
-          >
-            Ingressos
-          </Link>
-
-          <button
-            type="button"
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-expanded={menuOpen}
-            aria-controls="menu-completo"
-            className="rounded-full border border-line px-3.5 py-2.5 text-sm text-white/80 transition-colors hover:border-red hover:text-white sm:px-4 sm:py-2"
-          >
-            {menuOpen ? "Fechar" : "Menu"}
-          </button>
         </div>
       </div>
-
-      {menuOpen && (
-        <nav
-          id="menu-completo"
-          aria-label="Menu completo"
-          className="border-t border-line bg-black/95 px-5 py-6 backdrop-blur-md sm:px-8"
-        >
-          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {MENU_LINKS.map((link) => (
-              <li key={link.href}>
-                <HoverLink
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="font-display text-2xl text-white"
-                >
-                  {link.label}
-                </HoverLink>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6 flex flex-wrap gap-3 sm:hidden">
-            <Link
-              href="/loja"
-              onClick={() => setMenuOpen(false)}
-              className="rounded-full border border-line px-4 py-2 text-sm text-white"
-            >
-              Loja
-            </Link>
-            <Link
-              href="/ingressos"
-              onClick={() => setMenuOpen(false)}
-              className="rounded-full bg-red px-4 py-2 text-sm text-white"
-            >
-              Ingressos
-            </Link>
-          </div>
-        </nav>
-      )}
     </header>
   );
 }

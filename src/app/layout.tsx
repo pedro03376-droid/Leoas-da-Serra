@@ -6,7 +6,6 @@ import { SmoothScrollProvider, CustomCursor } from "@/components/motion";
 import { IntroGate } from "@/components/intro/IntroGate";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { MobileActionBar } from "@/components/layout/MobileActionBar";
 import { CartProvider } from "@/components/store/CartContext";
 import { CartDrawer } from "@/components/store/CartDrawer";
 
@@ -29,7 +28,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <CustomCursor />
               <Header />
               <main className="flex-1">{children}</main>
-              <MobileActionBar />
               <Footer />
               <CartDrawer />
             </IntroGate>

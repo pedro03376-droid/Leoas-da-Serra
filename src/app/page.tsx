@@ -1,23 +1,16 @@
 import { Hero } from "@/components/home/hero/Hero";
 import { TitlesTicker } from "@/components/home/TitlesTicker";
-import { NewsGrid } from "@/components/home/NewsGrid";
-import { SeasonCounters } from "@/components/home/SeasonCounters";
-import { getNoticias, getProximoJogo, getTemporadaAtual, getTitulos } from "@/lib/content";
+import { getProximoJogo, getTitulos } from "@/lib/content";
 
+// Noticias e temporada saem da Home ate ter conteudo real cadastrado
+// (hoje sao placeholder: "TODO: titulo da noticia" e estatisticas zeradas).
 export default async function Home() {
-  const [jogo, titulos, noticias, temporada] = await Promise.all([
-    getProximoJogo(),
-    getTitulos(),
-    getNoticias(),
-    getTemporadaAtual(),
-  ]);
+  const [jogo, titulos] = await Promise.all([getProximoJogo(), getTitulos()]);
 
   return (
     <>
       <Hero jogo={jogo} />
       <TitlesTicker titulos={titulos} />
-      <NewsGrid noticias={noticias} />
-      <SeasonCounters temporada={temporada} />
     </>
   );
 }
