@@ -339,14 +339,37 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     emCampanha: true,
   },
   {
-    // TODO: falta so trocar 'imagem'/'imagensGaleria' pelas fotos reais
-    // (amarelo/verde) assim que o envio delas funcionar de novo.
     _id: "uniforme-3-leoas-2026",
     nome: "Uniforme 3 Leoas da Serra",
     slug: "uniforme-3",
     precoCentavos: 9900,
     categoria: "camisa",
-    imagem: { url: "/placeholders/camisa.svg", alt: "Uniforme 3 Leoas da Serra", width: 800, height: 1000 },
+    imagem: {
+      url: "/products/uniforme-3/01-frente.png",
+      alt: "Uniforme 3 (amarelo e verde) das Leoas da Serra, vista de frente",
+      width: 1200,
+      height: 1500,
+    },
+    imagensGaleria: [
+      {
+        url: "/products/uniforme-3/02-acao1.jpg",
+        alt: "Atleta das Leoas da Serra usando o Uniforme 3 durante jogo",
+        width: 1200,
+        height: 1500,
+      },
+      {
+        url: "/products/uniforme-3/03-costas.jpg",
+        alt: "Uniforme 3 Leoas da Serra, vista de costas, com numero e nome",
+        width: 1200,
+        height: 1500,
+      },
+      {
+        url: "/products/uniforme-3/04-acao2.jpg",
+        alt: "Atleta das Leoas da Serra usando o Uniforme 3 em quadra",
+        width: 1200,
+        height: 1500,
+      },
+    ],
     descricao: "Terceiro uniforme das Leoas da Serra, usado em quadra pelo elenco na temporada 2026.",
     variantesId: "TODO-nuvemshop-product-id-uniforme-3",
     tamanhos: TAMANHOS_UNIFORME_3,
