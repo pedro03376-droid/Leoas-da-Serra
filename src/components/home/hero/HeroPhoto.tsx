@@ -1,47 +1,50 @@
-"use client";
-
-import Image from "next/image";
-import { Parallax } from "@/components/motion";
-import { useMagneticHover } from "@/hooks/useMagneticHover";
+import Link from "next/link";
+import { ImageReveal } from "@/components/motion";
+import { formatarPreco } from "@/lib/format";
+import type { ProdutoDestaque } from "@/types/content";
 
 /**
- * Painel de fotografia da campanha. Ainda sem foto oficial da atleta —
- * estrutura pronta para receber (troque HERO_CAMPANHA_SRC), com um
- * placeholder editorial (luz, grafite, grao) em vez de uma foto inventada.
- * A borda esquerda esmaece pro preto do fundo, entao nunca parece um card.
+ * Vitrine da loja ao lado das informacoes do jogo: as camisas reais em
+ * evidencia (frente + nome + preco, cada uma linkando pro produto), no
+ * mesmo slot onde antes ficava o placeholder de campanha da atleta.
  */
-const HERO_CAMPANHA_SRC = "/placeholders/hero-campanha.svg";
-
-export function HeroPhoto({ photoRef }: { photoRef: React.Ref<HTMLDivElement> }) {
-  const hoverRef = useMagneticHover<HTMLDivElement>(6);
-
+export function HeroPhoto({
+  photoRef,
+  produtos,
+}: {
+  photoRef: React.Ref<HTMLDivElement>;
+  produtos: ProdutoDestaque[];
+}) {
   return (
     <div
       ref={photoRef}
-      className="hero-photo-slot relative mt-10 aspect-[4/5] w-full opacity-0 lg:mt-0 lg:h-full lg:aspect-auto"
+      className="hero-photo-slot mt-10 flex aspect-[4/5] w-full flex-col opacity-0 lg:mt-0 lg:h-full lg:aspect-auto"
     >
-      <Parallax speed={0.06} className="h-full w-full">
-        <div
-          ref={hoverRef}
-          className="relative h-full w-full transition-transform duration-500 ease-out will-change-transform"
-        >
-          <Image
-            src={HERO_CAMPANHA_SRC}
-            alt=""
-            fill
-            priority
-            sizes="(min-width: 1024px) 42vw, 100vw"
-            style={{ objectFit: "cover", objectPosition: "center 30%" }}
-          />
-          {/* esmaece a borda esquerda da foto no fundo — nunca um card com corte reto */}
-          <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-black to-transparent lg:block hidden" />
-          <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/70 to-transparent" />
-        </div>
-      </Parallax>
+      <div className="flex items-center justify-between">
+        <span className="font-mono-label text-[10px] text-white/50">Loja oficial</span>
+        <Link href="/loja" className="font-mono-label text-[10px] text-white/50 transition-colors hover:text-white">
+          Ver tudo →
+        </Link>
+      </div>
 
-      <span className="font-mono-label absolute bottom-4 left-4 text-[10px] text-white/35 lg:bottom-6 lg:left-6">
-        Campanha oficial em breve
-      </span>
+      <div className="mt-3 flex flex-1 flex-col gap-2">
+        {produtos.map((produto) => (
+          <Link
+            key={produto._id}
+            href={`/loja/${produto.slug}`}
+            className="hover-zoom group relative block flex-1 overflow-hidden rounded-sm bg-card"
+          >
+            <ImageReveal src={produto.imagem.url} alt={produto.imagem.alt} className="h-full w-full" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/5 to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-3">
+              <span className="font-display text-base leading-none text-white sm:text-lg">{produto.nome}</span>
+              <span className="font-mono-label shrink-0 text-xs text-white/80">
+                {formatarPreco(produto.precoCentavos)}
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

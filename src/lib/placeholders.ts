@@ -210,16 +210,6 @@ export const NOTICIAS_PLACEHOLDER: Noticia[] = Array.from({ length: 5 }).map((_,
   destaque: index === 0,
 }));
 
-// TODO: substituir pelo variantesId real de cada tamanho quando a Nuvemshop
-// estiver conectada — cada tamanho e uma variante/SKU propria la.
-function tamanhosPadrao(prefixoId: string): { tamanho: string; variantesId: string; disponivel: boolean }[] {
-  return ["P", "M", "G", "GG"].map((tamanho) => ({
-    tamanho,
-    variantesId: `TODO-nuvemshop-variant-${prefixoId}-${tamanho}`,
-    disponivel: true,
-  }));
-}
-
 // Tamanhos reais da camisa oficial (levantados na planilha de pedidos do
 // clube): unissex, "baby look" (corte feminino, prefixo BL) e infantil.
 // TODO: variantesId de cada tamanho ainda depende da Nuvemshop conectada.
@@ -374,26 +364,6 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     variantesId: "TODO-nuvemshop-product-id-uniforme-3",
     tamanhos: TAMANHOS_UNIFORME_3,
   },
-  {
-    _id: "placeholder-camisa-treino",
-    nome: "Camisa de Treino",
-    slug: "camisa-treino",
-    precoCentavos: 15900,
-    categoria: "camisa",
-    imagem: { url: "/placeholders/camisa.svg", alt: "Camisa de treino Leoas da Serra", width: 800, height: 1000 },
-    descricao: "TODO: descricao real do produto vinda da Nuvemshop.",
-    variantesId: "TODO-nuvemshop-product-id-2",
-    tamanhos: tamanhosPadrao("camisa-treino"),
-  },
-  {
-    _id: "placeholder-cachecol",
-    nome: "Cachecol Leoas da Serra",
-    slug: "cachecol",
-    precoCentavos: 6900,
-    categoria: "acessorio",
-    imagem: { url: "/placeholders/camisa.svg", alt: "Cachecol Leoas da Serra", width: 800, height: 1000 },
-    descricao: "TODO: descricao real do produto vinda da Nuvemshop.",
-    variantesId: "TODO-nuvemshop-product-id-3",
-    // sem tamanhos — acessorio unico
-  },
+  // Camisa de Treino e Cachecol saem da loja ate ter foto real (hoje usam
+  // o SVG generico /placeholders/camisa.svg) — volta quando tiver fotos.
 ];

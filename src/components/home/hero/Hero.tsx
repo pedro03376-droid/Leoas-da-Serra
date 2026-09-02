@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ESCUDO_SRC } from "@/lib/brand";
 import { EASE_CINEMATIC_GSAP } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import type { Jogo } from "@/types/content";
+import type { Jogo, ProdutoDestaque } from "@/types/content";
 import { HeroBackground } from "./HeroBackground";
 import { HeroEditorialTag } from "./HeroEditorialTag";
 import { HeroPhoto } from "./HeroPhoto";
@@ -62,7 +62,7 @@ function useCountdown(target: string) {
  * (nao efeitos isolados) e, no scroll, a composicao inteira recua com
  * sutileza para dar lugar a proxima secao.
  */
-export function Hero({ jogo }: { jogo: Jogo }) {
+export function Hero({ jogo, produtos }: { jogo: Jogo; produtos: ProdutoDestaque[] }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
@@ -280,7 +280,7 @@ export function Hero({ jogo }: { jogo: Jogo }) {
           )}
         </div>
 
-        <HeroPhoto photoRef={photoRef} />
+        <HeroPhoto photoRef={photoRef} produtos={produtos} />
         <HeroActions actionsRef={actionsRef} matchCenterHref={`/jogos/${jogo.slug}`} />
       </div>
     </section>
