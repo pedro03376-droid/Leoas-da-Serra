@@ -4,7 +4,8 @@ const imageFragment = groq`{
   "url": asset->url,
   "alt": coalesce(alt, ""),
   "width": asset->metadata.dimensions.width,
-  "height": asset->metadata.dimensions.height
+  "height": asset->metadata.dimensions.height,
+  hotspot
 }`;
 
 const escalacaoFragment = groq`{

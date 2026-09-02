@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useCart } from "./CartContext";
-import { formatarPreco } from "@/lib/format";
+import { formatarPreco, objectPositionFrom } from "@/lib/format";
 import type { ProdutoDestaque } from "@/types/content";
 
 export function ProductDetail({ produto }: { produto: ProdutoDestaque }) {
@@ -25,7 +25,7 @@ export function ProductDetail({ produto }: { produto: ProdutoDestaque }) {
             alt={fotos[fotoAtiva].alt}
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "cover", objectPosition: objectPositionFrom(fotos[fotoAtiva]) }}
             priority
           />
         </div>
@@ -43,7 +43,13 @@ export function ProductDetail({ produto }: { produto: ProdutoDestaque }) {
                   index === fotoAtiva ? "ring-red" : "ring-line hover:ring-white/40"
                 }`}
               >
-                <Image src={foto.url} alt="" fill sizes="80px" style={{ objectFit: "cover" }} />
+                <Image
+                  src={foto.url}
+                  alt=""
+                  fill
+                  sizes="80px"
+                  style={{ objectFit: "cover", objectPosition: objectPositionFrom(foto) }}
+                />
               </button>
             ))}
           </div>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ImageReveal, TextReveal } from "@/components/motion";
 import type { Atleta } from "@/types/content";
+import { objectPositionFrom } from "@/lib/format";
 
 export function AthleteProfile({ atleta }: { atleta: Atleta }) {
   return (
@@ -12,7 +13,7 @@ export function AthleteProfile({ atleta }: { atleta: Atleta }) {
             alt={atleta.foto.alt}
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "cover", objectPosition: objectPositionFrom(atleta.foto) }}
             priority
           />
           <span className="font-display absolute left-4 top-2 text-7xl text-white/20 sm:text-8xl">{atleta.numero}</span>

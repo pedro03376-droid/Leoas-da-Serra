@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ImageReveal, TextReveal } from "@/components/motion";
 import type { ProdutoDestaque } from "@/types/content";
-import { formatarPreco } from "@/lib/format";
+import { formatarPreco, objectPositionFrom } from "@/lib/format";
 
 /** Hero-campanha da camisa oficial (ou do produto marcado emCampanha). */
 export function CampaignHero({ produto }: { produto: ProdutoDestaque }) {
@@ -15,7 +15,7 @@ export function CampaignHero({ produto }: { produto: ProdutoDestaque }) {
           priority
           sizes="100vw"
           className="h-full w-full"
-          style={{ objectFit: "cover" }}
+          style={{ objectFit: "cover", objectPosition: objectPositionFrom(produto.imagem) }}
         />
       </div>
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black via-black/40 to-transparent" />

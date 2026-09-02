@@ -8,6 +8,8 @@ export interface SanityImageRef {
   alt: string;
   width: number;
   height: number;
+  /** Ponto focal definido no Studio (hotspot), fracoes de 0 a 1. Ausente nas imagens locais/placeholder. */
+  hotspot?: { x: number; y: number };
 }
 
 export type Posicao = "Goleira" | "Fixo" | "Ala" | "Pivo";

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "./CartContext";
 import { onCheckout, resolverVariantesId } from "@/lib/nuvemshop";
-import { formatarPreco } from "@/lib/format";
+import { formatarPreco, objectPositionFrom } from "@/lib/format";
 
 /** Sacola lateral: checkout agnostico chamando onCheckout() -> Nuvemshop. */
 export function CartDrawer() {
@@ -50,7 +50,14 @@ export function CartDrawer() {
                   {lines.map((line) => (
                     <li key={`${line.produto._id}-${line.tamanho ?? "unico"}`} className="flex gap-4">
                       <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-sm bg-card">
-                        <Image src={line.produto.imagem.url} alt="" fill sizes="64px" className="object-cover" />
+                        <Image
+                          src={line.produto.imagem.url}
+                          alt=""
+                          fill
+                          sizes="64px"
+                          className="object-cover"
+                          style={{ objectPosition: objectPositionFrom(line.produto.imagem) }}
+                        />
                       </div>
                       <div className="flex flex-1 flex-col">
                         <span className="text-sm text-white">{line.produto.nome}</span>

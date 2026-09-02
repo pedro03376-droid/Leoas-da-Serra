@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TextReveal } from "@/components/motion";
 import type { EscalacaoAtleta } from "@/types/content";
+import { objectPositionFrom } from "@/lib/format";
 
 /** Escalacao das Leoas: numero, nome e posicao, cada uma linkando pro perfil no elenco. */
 export function MatchLineup({ escalacao }: { escalacao: EscalacaoAtleta[] }) {
@@ -19,7 +20,13 @@ export function MatchLineup({ escalacao }: { escalacao: EscalacaoAtleta[] }) {
             <Link href={`/elenco/${jogadora.slug}`} className="group flex items-center gap-3">
               <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-card">
                 {jogadora.foto && (
-                  <Image src={jogadora.foto.url} alt="" fill sizes="44px" style={{ objectFit: "cover" }} />
+                  <Image
+                    src={jogadora.foto.url}
+                    alt=""
+                    fill
+                    sizes="44px"
+                    style={{ objectFit: "cover", objectPosition: objectPositionFrom(jogadora.foto) }}
+                  />
                 )}
               </div>
               <div className="min-w-0">
