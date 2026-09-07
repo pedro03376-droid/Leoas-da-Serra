@@ -19,7 +19,10 @@
  * de vez — mas exige integrar o SDK deles em vez de um link direto.
  */
 
-const STORE_URL = process.env.NEXT_PUBLIC_NUVEMSHOP_STORE_URL ?? "https://leoasdaserra.lojavirtualnuvem.com.br";
+// "||" (nao "??") de proposito: uma variavel de ambiente configurada em
+// branco na Vercel e string vazia, nao undefined -- "??" deixaria passar
+// e o link de checkout ficava relativo ao nosso proprio dominio (404).
+const STORE_URL = process.env.NEXT_PUBLIC_NUVEMSHOP_STORE_URL || "https://leoasdaserra.lojavirtualnuvem.com.br";
 
 export interface CheckoutItem {
   variantesId: string;
