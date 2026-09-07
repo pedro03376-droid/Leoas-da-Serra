@@ -5,12 +5,21 @@
  * proprio — onCheckout() delega para a Nuvemshop, que cuida de estoque,
  * pagamento, nota fiscal e frete (ver 07 CMS e Seguranca no prompt).
  *
- * TODO: trocar STORE_URL pelo dominio real da loja Nuvemshop e, se a
- * integracao usar o Nuvemshop Buy Button / Checkout API em vez de um link
- * direto, substituir o corpo desta funcao mantendo a mesma assinatura.
+ * Formato do link de compra direta da Nuvemshop (confirmado na central de
+ * ajuda deles): https://{loja}/comprar/{idVariante}-{quantidade} — adiciona
+ * essa variante ao carrinho da sessao do navegador e leva pra pagina do
+ * carrinho. Limitacao da propria Nuvemshop: cada link so aceita UMA
+ * variante por vez, nao da pra combinar produtos diferentes num unico link.
+ * Por isso, com mais de um item na sacola, abrimos um link por item extra
+ * numa aba em segundo plano (todos caem no mesmo carrinho, por serem da
+ * mesma sessao/cookie da loja) e navegamos a aba principal pro primeiro.
+ *
+ * TODO: se a Nuvemshop tiver o Buy Button / Checkout API disponivel no
+ * plano de voces, trocar por isso resolve a limitacao de multiplos itens
+ * de vez — mas exige integrar o SDK deles em vez de um link direto.
  */
 
-const STORE_URL = process.env.NEXT_PUBLIC_NUVEMSHOP_STORE_URL ?? "https://TODO.lojavirtualnuvem.com.br";
+const STORE_URL = process.env.NEXT_PUBLIC_NUVEMSHOP_STORE_URL ?? "https://leoasdaserra.lojavirtualnuvem.com.br";
 
 export interface CheckoutItem {
   variantesId: string;
@@ -28,13 +37,16 @@ export function resolverVariantesId(produto: { variantesId: string; tamanhos?: {
   return produto.tamanhos?.find((v) => v.tamanho === tamanho)?.variantesId ?? produto.variantesId;
 }
 
+function linkComprar(item: CheckoutItem): string {
+  return `${STORE_URL}/comprar/${item.variantesId}-${item.quantidade}`;
+}
+
 export function onCheckout(items: CheckoutItem[]): void {
   if (items.length === 0) return;
 
-  const params = new URLSearchParams();
-  items.forEach((item) => params.append("add", `${item.variantesId}:${item.quantidade}`));
+  const [primeiro, ...resto] = items;
+  resto.forEach((item) => window.open(linkComprar(item), "_blank"));
 
   // Navegacao proposital para um dominio externo (Nuvemshop) — nao uma rota interna do Next.js.
-  // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-  window.location.href = `${STORE_URL}/checkout?${params.toString()}`;
+  window.location.href = linkComprar(primeiro);
 }
