@@ -240,13 +240,17 @@ const TAMANHOS_UNIFORME_2 = [
   disponivel: true,
 }));
 
-// Tamanhos reais do Uniforme 3 (planilha de pedidos do clube).
-// TODO: variantesId de cada tamanho ainda depende da Nuvemshop conectada.
-const TAMANHOS_UNIFORME_3 = ["M", "G", "GG", "XG", "XGG", "BLG"].map((tamanho) => ({
-  tamanho,
-  variantesId: `TODO-nuvemshop-variant-uniforme-3-${tamanho}`,
-  disponivel: true,
-}));
+// Tamanhos reais do Uniforme 3 (planilha de pedidos do clube). Nuvemshop
+// ja conectada: variantesId real confirmado por tamanho (testado no
+// checkout), TODO nos que ainda faltam.
+const TAMANHOS_UNIFORME_3 = [
+  { tamanho: "M", variantesId: "1592194535" },
+  { tamanho: "G", variantesId: "TODO-nuvemshop-variant-uniforme-3-G" },
+  { tamanho: "GG", variantesId: "TODO-nuvemshop-variant-uniforme-3-GG" },
+  { tamanho: "XG", variantesId: "TODO-nuvemshop-variant-uniforme-3-XG" },
+  { tamanho: "XGG", variantesId: "TODO-nuvemshop-variant-uniforme-3-XGG" },
+  { tamanho: "BLG", variantesId: "TODO-nuvemshop-variant-uniforme-3-BLG" },
+].map((item) => ({ ...item, disponivel: true }));
 
 // TODO: substituir pelos produtos reais da Nuvemshop/Sanity (schema
 // `produtoDestaque`) — nome, preco, descricao, tamanhos e as 4-5 fotos de
