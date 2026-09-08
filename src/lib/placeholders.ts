@@ -115,14 +115,17 @@ function escalacaoDe(numeros: number[]): EscalacaoAtleta[] {
 
 // Proximo jogo real: Leoas da Serra x Female Futsal, quartas de final da
 // LFF 2026, no Ginasio Jones Minosso (Lages - SC). TODO: escalacao, stats
-// e fotos do Match Center ainda dependem do CMS.
+// e fotos do Match Center ainda dependem do CMS. TODO: atualizar dataHora
+// conforme o calendario real da liga for confirmado — o countdown do Hero
+// some sozinho quando essa data passar (ver Hero.tsx), mas fica melhor com
+// uma data futura de verdade.
 export const PROXIMO_JOGO_PLACEHOLDER: Jogo = {
   _id: "leoas-x-female-futsal-quartas-lff-2026",
   slug: "leoas-x-female-futsal-quartas-lff-2026",
   competicao: "Liga Feminina de Futsal · Quartas de Final",
   adversario: "Female Futsal",
   escudoAdversario: { url: "/brand/escudo-female-futsal.png", alt: "Escudo do Female Futsal", width: 423, height: 541 },
-  dataHora: "2026-09-02T20:00:00-03:00",
+  dataHora: "2026-09-20T20:00:00-03:00",
   local: "Ginasio Jones Minosso, Lages - SC",
   mandante: true,
   ingressoUrl: undefined,
@@ -273,6 +276,9 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
       alt: "Camisa oficial Leoas da Serra, vista de frente",
       width: 1200,
       height: 1500,
+      // Foco no escudo/patrocinadores no peito -- evita cortar em cima do
+      // rosto ou das maos na vitrine bem baixa da Home (hero-photo-slot).
+      hotspot: { x: 0.5, y: 0.42 },
     },
     imagensGaleria: [
       {
@@ -312,6 +318,7 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
       alt: "Uniforme 2 (branco e vermelho) das Leoas da Serra, vista de frente",
       width: 1200,
       height: 1500,
+      hotspot: { x: 0.5, y: 0.42 },
     },
     imagensGaleria: [
       {
@@ -351,6 +358,7 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
       alt: "Uniforme 3 (amarelo e verde) das Leoas da Serra, vista de frente",
       width: 1200,
       height: 1500,
+      hotspot: { x: 0.5, y: 0.42 },
     },
     imagensGaleria: [
       {

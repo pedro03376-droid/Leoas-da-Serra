@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ImageReveal } from "@/components/motion";
-import { formatarPreco } from "@/lib/format";
+import { formatarPreco, objectPositionFrom } from "@/lib/format";
 import type { ProdutoDestaque } from "@/types/content";
 
 /**
@@ -34,7 +34,12 @@ export function HeroPhoto({
             href={`/loja/${produto.slug}`}
             className="hover-zoom group relative block flex-1 overflow-hidden rounded-sm bg-card"
           >
-            <ImageReveal src={produto.imagem.url} alt={produto.imagem.alt} className="h-full w-full" />
+            <ImageReveal
+              src={produto.imagem.url}
+              alt={produto.imagem.alt}
+              className="h-full w-full"
+              style={{ objectPosition: objectPositionFrom(produto.imagem) }}
+            />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/5 to-transparent" />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-3">
               <span className="font-display text-base leading-none text-white sm:text-lg">{produto.nome}</span>

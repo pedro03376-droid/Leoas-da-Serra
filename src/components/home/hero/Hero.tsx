@@ -202,12 +202,23 @@ export function Hero({ jogo, produtos }: { jogo: Jogo; produtos: ProdutoDestaque
   }, [reducedMotion]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-[92svh] overflow-hidden sm:min-h-[92vh] lg:min-h-screen">
+    <section
+      ref={sectionRef}
+      className="relative flex min-h-[92svh] flex-col overflow-hidden sm:min-h-[92vh] lg:min-h-screen"
+    >
       <HeroBackground heroRef={bgRef} />
 
+      {/*
+        flex-1 (nao h-full/height:100%) de proposito: a secao so define
+        min-height (nao height), entao um filho com percentual de altura
+        ficaria do tamanho do proprio conteudo em vez de esticar ate
+        preencher a tela — sobrava um vazio solto embaixo do CTA antes do
+        proximo bloco. flex-1 num pai flex resolve isso preenchendo o
+        espaco disponivel de verdade.
+      */}
       <div
         ref={contentRef}
-        className="hero-grid relative z-10 mx-auto max-w-[1500px] px-5 pb-14 pt-32 sm:px-8 lg:h-full lg:px-10 lg:pb-16 lg:pt-36"
+        className="hero-grid relative z-10 mx-auto w-full max-w-[1500px] px-5 pb-14 pt-32 sm:px-8 lg:flex-1 lg:px-10 lg:pb-16 lg:pt-36"
       >
         <HeroEditorialTag tagRef={tagRef} />
 
@@ -255,7 +266,7 @@ export function Hero({ jogo, produtos }: { jogo: Jogo; produtos: ProdutoDestaque
             <p className="font-mono-label mt-1 text-xs text-white/50 sm:text-sm">{horaFormatada}</p>
           </div>
 
-          {jogo.status === "agendado" && countdown && (
+          {jogo.status === "agendado" && countdown && countdown.dias + countdown.horas + countdown.minutos + countdown.segundos > 0 && (
             <div
               ref={countdownRef}
               className="mt-8 flex gap-6 opacity-0 sm:gap-10"
@@ -278,10 +289,11 @@ export function Hero({ jogo, produtos }: { jogo: Jogo; produtos: ProdutoDestaque
               ))}
             </div>
           )}
+
+          <HeroActions actionsRef={actionsRef} matchCenterHref={`/jogos/${jogo.slug}`} />
         </div>
 
         <HeroPhoto photoRef={photoRef} produtos={produtos} />
-        <HeroActions actionsRef={actionsRef} matchCenterHref={`/jogos/${jogo.slug}`} />
       </div>
     </section>
   );
