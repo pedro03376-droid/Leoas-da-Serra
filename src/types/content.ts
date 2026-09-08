@@ -145,4 +145,13 @@ export interface ProdutoDestaque {
   /** Ausente = produto sem grade de tamanho (ex.: cachecol). */
   tamanhos?: VarianteTamanho[];
   emCampanha?: boolean;
+  /** Peso e dimensoes do pacote (1 unidade), usados so na estimativa de frete. */
+  pacote?: PacoteEnvio;
+}
+
+export interface PacoteEnvio {
+  pesoKg: number;
+  alturaCm: number;
+  larguraCm: number;
+  comprimentoCm: number;
 }

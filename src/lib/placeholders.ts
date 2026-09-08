@@ -251,6 +251,13 @@ const TAMANHOS_UNIFORME_3 = [
   { tamanho: "BLG", variantesId: "1592194541" },
 ].map((item) => ({ ...item, disponivel: true }));
 
+// Pacote (peso + dimensoes) de uma camisa dobrada, usado so pra estimativa
+// de frete (widget "calcular frete" na pagina do produto). Peso confirmado
+// no cadastro da Nuvemshop (0,200kg); dimensoes sao uma estimativa razoavel
+// pra um envelope com camisa dobrada — TODO: medir uma embalagem real e
+// ajustar se o valor calculado destoar muito do frete cobrado na Nuvemshop.
+const PACOTE_CAMISA_DOBRADA = { pesoKg: 0.2, alturaCm: 3, larguraCm: 24, comprimentoCm: 32 };
+
 // TODO: substituir pelos produtos reais da Nuvemshop/Sanity (schema
 // `produtoDestaque`) — nome, preco, descricao, tamanhos e as 4-5 fotos de
 // cada camisa (imagensGaleria) assim que estiverem prontos.
@@ -291,6 +298,7 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     descricao: "Camisa oficial das Leoas da Serra, usada em quadra pelo elenco na temporada 2026.",
     variantesId: "TODO-nuvemshop-product-id",
     tamanhos: TAMANHOS_CAMISA_OFICIAL,
+    pacote: PACOTE_CAMISA_DOBRADA,
     emCampanha: true,
   },
   {
@@ -329,6 +337,7 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     descricao: "Segundo uniforme das Leoas da Serra, usado em quadra pelo elenco na temporada 2026.",
     variantesId: "TODO-nuvemshop-product-id-uniforme-2",
     tamanhos: TAMANHOS_UNIFORME_2,
+    pacote: PACOTE_CAMISA_DOBRADA,
     emCampanha: true,
   },
   {
@@ -366,6 +375,7 @@ export const PRODUTOS_PLACEHOLDER: ProdutoDestaque[] = [
     descricao: "Terceiro uniforme das Leoas da Serra, usado em quadra pelo elenco na temporada 2026.",
     variantesId: "TODO-nuvemshop-product-id-uniforme-3",
     tamanhos: TAMANHOS_UNIFORME_3,
+    pacote: PACOTE_CAMISA_DOBRADA,
   },
   // Camisa de Treino e Cachecol saem da loja ate ter foto real (hoje usam
   // o SVG generico /placeholders/camisa.svg) — volta quando tiver fotos.

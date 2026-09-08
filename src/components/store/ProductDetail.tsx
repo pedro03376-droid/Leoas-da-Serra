@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { CalcularFrete } from "./CalcularFrete";
 import { useCart } from "./CartContext";
 import { formatarPreco, objectPositionFrom } from "@/lib/format";
 import type { ProdutoDestaque } from "@/types/content";
@@ -97,6 +98,8 @@ export function ProductDetail({ produto }: { produto: ProdutoDestaque }) {
         >
           {precisaTamanho && !tamanho ? "Escolha um tamanho" : "Adicionar a sacola"}
         </button>
+
+        <CalcularFrete pacote={produto.pacote} precoCentavos={produto.precoCentavos} />
       </div>
     </section>
   );

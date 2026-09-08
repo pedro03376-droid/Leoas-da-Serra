@@ -1,14 +1,22 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "./CartContext";
 import { onCheckout, resolverVariantesId } from "@/lib/nuvemshop";
 import { formatarPreco, objectPositionFrom } from "@/lib/format";
 
-/** Sacola lateral: checkout agnostico chamando onCheckout() -> Nuvemshop. */
+// NEXT_PUBLIC_CHECKOUT_MODE=custom liga o checkout proprio (Supabase +
+// Mercado Pago). Ate a migracao dos dados/credenciais estar pronta, o
+// padrao continua sendo a Nuvemshop (ja testada, vendendo de verdade) —
+// assim dar deploy nao quebra a compra em producao.
+const CHECKOUT_CUSTOM = process.env.NEXT_PUBLIC_CHECKOUT_MODE === "custom";
+
+/** Sacola lateral: leva pro checkout proprio (/loja/checkout) ou, por padrao, pra Nuvemshop via onCheckout(). */
 export function CartDrawer() {
   const { lines, isOpen, closeCart, removeItem, totalCentavos } = useCart();
+  const router = useRouter();
 
   return (
     <AnimatePresence>
@@ -88,14 +96,19 @@ export function CartDrawer() {
               <button
                 type="button"
                 disabled={lines.length === 0}
-                onClick={() =>
+                onClick={() => {
+                  if (CHECKOUT_CUSTOM) {
+                    closeCart();
+                    router.push("/loja/checkout");
+                    return;
+                  }
                   onCheckout(
                     lines.map((line) => ({
                       variantesId: resolverVariantesId(line.produto, line.tamanho),
                       quantidade: line.quantidade,
                     })),
-                  )
-                }
+                  );
+                }}
                 className="font-mono-label mt-4 w-full rounded-full bg-red py-3 text-xs text-white transition-colors hover:bg-red-dark disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Finalizar compra

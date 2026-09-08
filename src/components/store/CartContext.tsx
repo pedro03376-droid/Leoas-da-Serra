@@ -22,6 +22,7 @@ interface CartContextValue {
   closeCart: () => void;
   addItem: (produto: ProdutoDestaque, tamanho?: string) => void;
   removeItem: (produtoId: string, tamanho?: string) => void;
+  clearCart: () => void;
   totalCentavos: number;
 }
 
@@ -66,6 +67,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         closeCart: () => setIsOpen(false),
         addItem,
         removeItem,
+        clearCart: () => setLines([]),
         totalCentavos,
       }}
     >
