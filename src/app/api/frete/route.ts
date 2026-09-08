@@ -17,6 +17,11 @@ import { NextResponse } from "next/server";
 
 const MELHOR_ENVIO_BASE_URL = process.env.MELHOR_ENVIO_SANDBOX === "true" ? "https://sandbox.melhorenvio.com.br" : "https://melhorenvio.com.br";
 
+// CEP central de Lages - SC (sede do clube), usado como origem do calculo
+// de frete enquanto MELHOR_ENVIO_CEP_ORIGEM nao for setado com o CEP exato
+// de onde as encomendas saem de verdade.
+const CEP_ORIGEM_PADRAO = "88501-000";
+
 interface PacoteRequisicao {
   pesoKg: number;
   alturaCm: number;
@@ -39,9 +44,9 @@ interface CotacaoMelhorEnvio {
 
 export async function POST(request: Request) {
   const token = process.env.MELHOR_ENVIO_TOKEN;
-  const cepOrigem = process.env.MELHOR_ENVIO_CEP_ORIGEM;
+  const cepOrigem = process.env.MELHOR_ENVIO_CEP_ORIGEM || CEP_ORIGEM_PADRAO;
 
-  if (!token || !cepOrigem) {
+  if (!token) {
     return NextResponse.json({ erro: "Calculo de frete nao configurado." }, { status: 503 });
   }
 
