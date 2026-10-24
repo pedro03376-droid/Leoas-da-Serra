@@ -88,16 +88,44 @@ export function CheckoutForm() {
       <div className="space-y-5">
         <div>
           <label className={LABEL} htmlFor="nome">Nome completo</label>
-          <input id="nome" required value={dados.nome} onChange={(e) => set("nome", e.target.value)} className={`${CAMPO} mt-1.5`} />
+          <input
+            id="nome"
+            name="name"
+            autoComplete="name"
+            required
+            value={dados.nome}
+            onChange={(e) => set("nome", e.target.value)}
+            className={`${CAMPO} mt-1.5`}
+          />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className={LABEL} htmlFor="email">E-mail</label>
-            <input id="email" type="email" required value={dados.email} onChange={(e) => set("email", e.target.value)} className={`${CAMPO} mt-1.5`} />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              spellCheck={false}
+              required
+              value={dados.email}
+              onChange={(e) => set("email", e.target.value)}
+              className={`${CAMPO} mt-1.5`}
+            />
           </div>
           <div>
             <label className={LABEL} htmlFor="telefone">WhatsApp</label>
-            <input id="telefone" required value={dados.telefone} onChange={(e) => set("telefone", e.target.value)} className={`${CAMPO} mt-1.5`} />
+            <input
+              id="telefone"
+              name="tel"
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              required
+              value={dados.telefone}
+              onChange={(e) => set("telefone", e.target.value)}
+              className={`${CAMPO} mt-1.5`}
+            />
           </div>
         </div>
 
@@ -105,36 +133,92 @@ export function CheckoutForm() {
         <div className="grid grid-cols-3 gap-4">
           <div>
             <label className={LABEL} htmlFor="cep">CEP</label>
-            <input id="cep" required maxLength={9} value={dados.cep} onChange={(e) => set("cep", e.target.value)} className={`${CAMPO} mt-1.5`} />
+            <input
+              id="cep"
+              name="postal-code"
+              inputMode="numeric"
+              autoComplete="postal-code"
+              required
+              maxLength={9}
+              value={dados.cep}
+              onChange={(e) => set("cep", e.target.value)}
+              className={`${CAMPO} mt-1.5`}
+            />
           </div>
           <div className="col-span-2">
             <label className={LABEL} htmlFor="rua">Rua</label>
-            <input id="rua" required value={dados.rua} onChange={(e) => set("rua", e.target.value)} className={`${CAMPO} mt-1.5`} />
+            <input
+              id="rua"
+              name="address-line1"
+              autoComplete="address-line1"
+              required
+              value={dados.rua}
+              onChange={(e) => set("rua", e.target.value)}
+              className={`${CAMPO} mt-1.5`}
+            />
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div>
             <label className={LABEL} htmlFor="numero">Numero</label>
-            <input id="numero" required value={dados.numero} onChange={(e) => set("numero", e.target.value)} className={`${CAMPO} mt-1.5`} />
+            <input
+              id="numero"
+              name="numero"
+              required
+              value={dados.numero}
+              onChange={(e) => set("numero", e.target.value)}
+              className={`${CAMPO} mt-1.5`}
+            />
           </div>
           <div className="col-span-2">
             <label className={LABEL} htmlFor="complemento">Complemento</label>
-            <input id="complemento" value={dados.complemento} onChange={(e) => set("complemento", e.target.value)} className={`${CAMPO} mt-1.5`} />
+            <input
+              id="complemento"
+              name="address-line2"
+              autoComplete="address-line2"
+              value={dados.complemento}
+              onChange={(e) => set("complemento", e.target.value)}
+              className={`${CAMPO} mt-1.5`}
+            />
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2">
             <label className={LABEL} htmlFor="bairro">Bairro</label>
-            <input id="bairro" required value={dados.bairro} onChange={(e) => set("bairro", e.target.value)} className={`${CAMPO} mt-1.5`} />
+            <input
+              id="bairro"
+              name="bairro"
+              required
+              value={dados.bairro}
+              onChange={(e) => set("bairro", e.target.value)}
+              className={`${CAMPO} mt-1.5`}
+            />
           </div>
           <div>
             <label className={LABEL} htmlFor="estado">UF</label>
-            <input id="estado" required maxLength={2} value={dados.estado} onChange={(e) => set("estado", e.target.value.toUpperCase())} className={`${CAMPO} mt-1.5`} />
+            <input
+              id="estado"
+              name="address-level1"
+              autoComplete="address-level1"
+              required
+              maxLength={2}
+              value={dados.estado}
+              onChange={(e) => set("estado", e.target.value.toUpperCase())}
+              className={`${CAMPO} mt-1.5`}
+            />
           </div>
         </div>
         <div>
           <label className={LABEL} htmlFor="cidade">Cidade</label>
-          <input id="cidade" required value={dados.cidade} onChange={(e) => set("cidade", e.target.value)} className={`${CAMPO} mt-1.5`} />
+          <input
+            id="cidade"
+            name="address-level2"
+            autoComplete="address-level2"
+            required
+            value={dados.cidade}
+            onChange={(e) => set("cidade", e.target.value)}
+            className={`${CAMPO} mt-1.5`}
+          />
         </div>
       </div>
 
@@ -156,14 +240,18 @@ export function CheckoutForm() {
           <span className="font-display text-lg">{formatarPreco(totalCentavos)}</span>
         </div>
 
-        {erro && <p className="mt-4 text-xs text-red">{erro}</p>}
+        {erro && (
+          <p role="alert" className="mt-4 text-xs text-red">
+            {erro}
+          </p>
+        )}
 
         <button
           type="submit"
           disabled={enviando}
-          className="font-mono-label mt-6 w-full rounded-full bg-red py-3.5 text-xs text-white transition-colors hover:bg-red-dark disabled:cursor-not-allowed disabled:opacity-40"
+          className="font-mono-label mt-6 w-full rounded-full bg-red py-3.5 text-xs text-white transition-colors hover:bg-red-dark disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/50"
         >
-          {enviando ? "Redirecionando..." : "Ir para o pagamento"}
+          {enviando ? "Redirecionando…" : "Ir para o pagamento"}
         </button>
         <button
           type="button"

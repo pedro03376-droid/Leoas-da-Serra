@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -18,6 +19,15 @@ export function CartDrawer() {
   const { lines, isOpen, closeCart, removeItem, totalCentavos } = useCart();
   const router = useRouter();
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeCart();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isOpen, closeCart]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -32,8 +42,9 @@ export function CartDrawer() {
           />
           <motion.aside
             role="dialog"
+            aria-modal="true"
             aria-label="Sacola"
-            className="fixed inset-y-0 right-0 z-[61] flex w-full max-w-sm flex-col border-l border-line bg-ink"
+            className="fixed inset-y-0 right-0 z-[61] flex w-full max-w-sm flex-col overscroll-contain border-l border-line bg-ink"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -60,7 +71,7 @@ export function CartDrawer() {
                       <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-sm bg-card">
                         <Image
                           src={line.produto.imagem.url}
-                          alt=""
+                          alt={line.produto.nome}
                           fill
                           sizes="64px"
                           className="object-cover"

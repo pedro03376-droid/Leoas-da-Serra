@@ -94,7 +94,7 @@ export function ProductDetail({ produto }: { produto: ProdutoDestaque }) {
             addItem(produto, tamanhoEscolhido ?? undefined);
             openCart();
           }}
-          className="font-mono-label mt-8 w-full max-w-xs rounded-full bg-red py-3.5 text-xs text-white transition-colors hover:bg-red-dark disabled:cursor-not-allowed disabled:opacity-40"
+          className="font-mono-label mt-8 w-full max-w-xs rounded-full bg-red py-3.5 text-xs text-white transition-colors hover:bg-red-dark disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/50"
         >
           {precisaTamanho && !tamanho ? "Escolha um tamanho" : "Adicionar a sacola"}
         </button>

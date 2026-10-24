@@ -65,6 +65,10 @@ export function CalcularFrete({ pacote, precoCentavos }: { pacote?: PacoteEnvio;
       <div className="mt-3 flex max-w-xs gap-2">
         <input
           type="text"
+          id="cep-frete"
+          name="cep"
+          aria-label="CEP"
+          autoComplete="postal-code"
           inputMode="numeric"
           placeholder="00000-000"
           value={cep}
@@ -79,26 +83,28 @@ export function CalcularFrete({ pacote, precoCentavos }: { pacote?: PacoteEnvio;
           disabled={estado === "carregando"}
           className="font-mono-label shrink-0 rounded-sm border border-line px-4 py-2.5 text-xs text-white/80 transition-colors hover:border-white/50 disabled:opacity-40"
         >
-          {estado === "carregando" ? "..." : "Calcular"}
+          {estado === "carregando" ? "Calculando…" : "Calcular"}
         </button>
       </div>
 
-      {estado === "erro" && <p className="mt-2 text-xs text-red">CEP invalido.</p>}
-      {estado === "indisponivel" && <p className="mt-2 text-xs text-gray">Calculo de frete indisponivel no momento.</p>}
-      {estado === "ok" && opcoes.length === 0 && <p className="mt-2 text-xs text-gray">Nenhuma opcao de frete encontrada pra esse CEP.</p>}
-      {estado === "ok" && opcoes.length > 0 && (
-        <ul className="mt-3 space-y-2">
-          {opcoes.map((opcao) => (
-            <li key={`${opcao.transportadora}-${opcao.servico}`} className="flex items-center justify-between text-sm text-white/80">
-              <span>
-                {opcao.transportadora} {opcao.servico}
-                {opcao.prazoDias && <span className="text-gray"> · ate {opcao.prazoDias} dias uteis</span>}
-              </span>
-              <span className="text-white">{formatarPreco(opcao.precoCentavos)}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div aria-live="polite">
+        {estado === "erro" && <p className="mt-2 text-xs text-red">CEP invalido.</p>}
+        {estado === "indisponivel" && <p className="mt-2 text-xs text-gray">Calculo de frete indisponivel no momento.</p>}
+        {estado === "ok" && opcoes.length === 0 && <p className="mt-2 text-xs text-gray">Nenhuma opcao de frete encontrada pra esse CEP.</p>}
+        {estado === "ok" && opcoes.length > 0 && (
+          <ul className="mt-3 space-y-2">
+            {opcoes.map((opcao) => (
+              <li key={`${opcao.transportadora}-${opcao.servico}`} className="flex items-center justify-between text-sm text-white/80">
+                <span>
+                  {opcao.transportadora} {opcao.servico}
+                  {opcao.prazoDias && <span className="text-gray"> · ate {opcao.prazoDias} dias uteis</span>}
+                </span>
+                <span className="text-white">{formatarPreco(opcao.precoCentavos)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <p className="mt-3 text-xs text-gray">Valor estimado. O frete final e calculado no fechamento da compra.</p>
     </div>
   );
