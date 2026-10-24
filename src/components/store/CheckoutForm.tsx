@@ -57,12 +57,12 @@ export function CheckoutForm() {
             cidade: dados.cidade,
             estado: dados.estado,
           },
+          // Preco e nome vem do catalogo no servidor (nunca do cliente) --
+          // so mandamos o essencial pra identificar o item e a quantidade.
           itens: lines.map((line) => ({
             produtoId: line.produto._id,
-            produtoNome: line.produto.nome,
             tamanho: line.tamanho,
             quantidade: line.quantidade,
-            precoUnitCentavos: line.produto.precoCentavos,
           })),
         }),
       });
