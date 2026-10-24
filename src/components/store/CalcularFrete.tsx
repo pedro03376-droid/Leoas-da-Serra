@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { formatarPreco } from "@/lib/format";
 import type { PacoteEnvio } from "@/types/content";
 
@@ -93,14 +94,20 @@ export function CalcularFrete({ pacote, precoCentavos }: { pacote?: PacoteEnvio;
         {estado === "ok" && opcoes.length === 0 && <p className="mt-2 text-xs text-gray">Nenhuma opcao de frete encontrada pra esse CEP.</p>}
         {estado === "ok" && opcoes.length > 0 && (
           <ul className="mt-3 space-y-2">
-            {opcoes.map((opcao) => (
-              <li key={`${opcao.transportadora}-${opcao.servico}`} className="flex items-center justify-between text-sm text-white/80">
+            {opcoes.map((opcao, index) => (
+              <motion.li
+                key={`${opcao.transportadora}-${opcao.servico}`}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                className="flex items-center justify-between text-sm text-white/80"
+              >
                 <span>
                   {opcao.transportadora} {opcao.servico}
                   {opcao.prazoDias && <span className="text-gray"> · ate {opcao.prazoDias} dias uteis</span>}
                 </span>
                 <span className="text-white">{formatarPreco(opcao.precoCentavos)}</span>
-              </li>
+              </motion.li>
             ))}
           </ul>
         )}

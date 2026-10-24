@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import gsap from "gsap";
 import { useCart } from "./CartContext";
+import { EASE_CINEMATIC_GSAP } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { formatarPreco } from "@/lib/format";
 
 const CAMPO = "w-full rounded-sm border border-line bg-transparent px-3.5 py-2.5 text-sm text-white placeholder:text-gray focus:border-white/50 focus:outline-none";
@@ -13,6 +16,9 @@ export function CheckoutForm() {
   const router = useRouter();
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  const reducedMotion = usePrefersReducedMotion();
+  const camposRef = useRef<HTMLDivElement>(null);
+  const resumoRef = useRef<HTMLDivElement>(null);
 
   const [dados, setDados] = useState({
     nome: "",
@@ -30,6 +36,26 @@ export function CheckoutForm() {
   function set<K extends keyof typeof dados>(campo: K, valor: string) {
     setDados((atual) => ({ ...atual, [campo]: valor }));
   }
+
+  useEffect(() => {
+    const elementos = [camposRef.current, resumoRef.current].filter(Boolean) as HTMLElement[];
+    if (elementos.length === 0) return;
+
+    if (reducedMotion) {
+      gsap.set(elementos, { opacity: 1, y: 0 });
+      return;
+    }
+
+    gsap.set(camposRef.current, { opacity: 0, y: 14 });
+    gsap.set(resumoRef.current, { opacity: 0, y: 14 });
+
+    const tl = gsap.timeline({ defaults: { ease: EASE_CINEMATIC_GSAP } });
+    tl.to(camposRef.current, { opacity: 1, y: 0, duration: 0.55 }, 0).to(resumoRef.current, { opacity: 1, y: 0, duration: 0.55 }, 0.12);
+
+    return () => {
+      tl.kill();
+    };
+  }, [reducedMotion]);
 
   if (lines.length === 0) {
     return <p className="text-sm text-gray">Sua sacola esta vazia.</p>;
@@ -85,7 +111,7 @@ export function CheckoutForm() {
 
   return (
     <form onSubmit={finalizar} className="grid grid-cols-1 gap-8 lg:grid-cols-[1.2fr_1fr]">
-      <div className="space-y-5">
+      <div ref={camposRef} className="space-y-5">
         <div>
           <label className={LABEL} htmlFor="nome">Nome completo</label>
           <input
@@ -222,7 +248,7 @@ export function CheckoutForm() {
         </div>
       </div>
 
-      <div className="h-fit rounded-sm border border-line p-6">
+      <div ref={resumoRef} className="h-fit rounded-sm border border-line border-t-2 border-t-red p-6">
         <h2 className="font-display text-lg text-white">Resumo</h2>
         <ul className="mt-4 space-y-3">
           {lines.map((line) => (
@@ -249,8 +275,14 @@ export function CheckoutForm() {
         <button
           type="submit"
           disabled={enviando}
-          className="font-mono-label mt-6 w-full rounded-full bg-red py-3.5 text-xs text-white transition-colors hover:bg-red-dark disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/50"
+          className="font-mono-label mt-6 flex w-full items-center justify-center gap-2.5 rounded-full bg-red py-3.5 text-xs text-white transition-colors hover:bg-red-dark disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/50"
         >
+          {enviando && (
+            <span
+              aria-hidden
+              className="h-3 w-3 animate-spin rounded-full border-2 border-white/30 border-t-white"
+            />
+          )}
           {enviando ? "Redirecionando…" : "Ir para o pagamento"}
         </button>
         <button
