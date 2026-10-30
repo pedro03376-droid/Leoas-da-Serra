@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { CampaignHero } from "@/components/store/CampaignHero";
 import { CollectionGrid } from "@/components/store/CollectionGrid";
+import { VestiarioHero } from "@/components/store/VestiarioHero";
+import { VestiarioMarquee } from "@/components/store/VestiarioMarquee";
 import { getProdutosDestaque } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -10,11 +11,11 @@ export const metadata: Metadata = {
 
 export default async function LojaPage() {
   const produtos = await getProdutosDestaque();
-  const destaque = produtos.find((produto) => produto.emCampanha) ?? produtos[0];
 
   return (
     <>
-      {destaque && <CampaignHero produto={destaque} />}
+      <VestiarioHero produtos={produtos} />
+      <VestiarioMarquee />
       <CollectionGrid produtos={produtos} />
     </>
   );
